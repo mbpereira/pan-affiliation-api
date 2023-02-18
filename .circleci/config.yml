@@ -17,7 +17,7 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      - run: dotnet test --no-build --logger "trx" ~/project/tests/Pan.Affiliation.UnitTests
+      - run: dotnet test --logger "trx" ~/project/tests/Pan.Affiliation.UnitTests
       - run:
           name: test results
           when: always
