@@ -34,7 +34,7 @@ jobs:
         - run:
             name: Deploy to VPS
             command: |
-              ssh $SSH_USER@$SSH_HOST "docker ps -q --filter name=pan-affiliation-api | grep -q . && docker stop pan-affiliation-api && docker rm -f pan-affiliation-api || echo Skipped && docker run -p 80:80 -d --name pan-affiliation-api mbpereira98/pan-affiliation-api"
+              ssh $SSH_USER@$SSH_HOST "docker ps -q --filter name=pan-affiliation-api | grep -q . && docker stop pan-affiliation-api && docker rm -f pan-affiliation-api || echo Skipped && docker run -p $API_PORT:80 -d --name pan-affiliation-api mbpereira98/pan-affiliation-api"
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -46,10 +46,9 @@ workflows:
           requires:
             - test
           context:
-            - DOCKER
-            - VPS_DOKEHOST  
+            - PAN_AFFILIATION_API_STG 
           deploy: true 
-          image: mbpereira98/pan-affiliation-api
+          image: $DOCKER_HUB_USERNAME/$DOCKER_IMG_NAME
           docker-password: DOCKER_HUB_PASSWORD
           docker-username: DOCKER_HUB_USERNAME
           lint-dockerfile: false 
@@ -61,7 +60,6 @@ workflows:
           tag: $CIRCLE_SHA1,latest
       - deploy-staging:
           context:
-            - DOCKER
-            - VPS_DOKEHOST
+            - PAN_AFFILIATION_API_STG
           requires:
             - docker/publish
