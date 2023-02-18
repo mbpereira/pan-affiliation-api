@@ -32,7 +32,7 @@ namespace Pan.Affiliation.Infrastructure
 
         private string GetConnectionString()
         {
-            var settings = _settingsProvider.GetSection<DatabaseSettings>(PanAffiliationDbSettingsKey);
+            var settings = _settingsProvider.GetSection<DbSettings>(PanAffiliationDbSettingsKey);
 
             return string.Format(PgConnectionString,
                 settings!.Host,

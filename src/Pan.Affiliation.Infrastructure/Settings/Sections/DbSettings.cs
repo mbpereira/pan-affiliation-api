@@ -1,6 +1,6 @@
 ﻿namespace Pan.Affiliation.Infrastructure.Settings.Sections
 {
-    public class DatabaseSettings
+    public class DbSettings
     {
         public string? Username { get; set; }
         public string? Password { get; set; }

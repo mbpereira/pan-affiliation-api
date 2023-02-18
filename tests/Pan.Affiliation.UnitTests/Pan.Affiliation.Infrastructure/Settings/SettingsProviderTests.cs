@@ -43,10 +43,10 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Settings
             var provider = new SettingsProvider(configuration);
 
             // Act
-            var result = provider.GetSection<DatabaseSettings>("PanAffiliationDatabaseSettings");
+            var result = provider.GetSection<DbSettings>("PanAffiliationDatabaseSettings");
 
             // Assert
-            result.Should().BeEquivalentTo(new DatabaseSettings
+            result.Should().BeEquivalentTo(new DbSettings
             {
                 Username = envValue
             });
@@ -62,7 +62,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Settings
             var provider = new SettingsProvider(configuration);
 
             // Act
-            var result = provider.GetSection<DatabaseSettings>("PanAffiliationDatabaseSettings");
+            var result = provider.GetSection<DbSettings>("PanAffiliationDatabaseSettings");
 
             // Assert
             result.Should().BeNull();
