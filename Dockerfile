@@ -6,10 +6,10 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["src/Pan.Affiliation.Api/Pan.Affiliation.Api/Pan.Affiliation.Api.csproj", "src/Pan.Affiliation.Api/Pan.Affiliation.Api/"]
-RUN dotnet restore "src/Pan.Affiliation.Api/Pan.Affiliation.Api/Pan.Affiliation.Api.csproj"
-COPY . .
-WORKDIR "/src/src/Pan.Affiliation.Api/Pan.Affiliation.Api"
+COPY ["src/Pan.Affiliation.Api/Pan.Affiliation.Api.csproj", "Pan.Affiliation.Api/"]
+RUN dotnet restore "Pan.Affiliation.Api/Pan.Affiliation.Api.csproj"
+COPY "src/" .
+WORKDIR "Pan.Affiliation.Api"
 RUN dotnet build "Pan.Affiliation.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
