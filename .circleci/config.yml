@@ -24,7 +24,7 @@ jobs:
           command: |
               dotnet tool install -g trx2junit &&
               export PATH="$PATH:/root/.dotnet/tools" &&
-              trx2junit **/tests/results/*.trx
+              trx2junit ~/project/tests/results/*.trx
       - store_test_results:
           path: ~/project/tests/Pan.Affiliation.UnitTests/TestResults
   deploy-staging:
