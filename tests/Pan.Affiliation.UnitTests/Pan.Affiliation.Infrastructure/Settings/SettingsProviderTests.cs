@@ -53,7 +53,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Settings
         }
 
         [Fact]
-        public void When_GetSection_is_called_should_return_null_if_configuration_was_not_found()
+        public void When_GetSection_is_called_should_return_default_object_props_if_configuration_was_not_found()
         {
             // Arrange
             var configuration = new ConfigurationBuilder()
@@ -65,7 +65,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Settings
             var result = provider.GetSection<DbSettings>("PanAffiliationDatabaseSettings");
 
             // Assert
-            result.Should().BeNull();
+            result.Should().BeEquivalentTo(new DbSettings());
         }
     }
 }

@@ -17,9 +17,6 @@ namespace Pan.Affiliation.Infrastructure.Settings
             var settings = new T();
             var section = _configuration.GetSection(key);
 
-            if (section is null || section.Value is null)
-                return null;
-
             section.Bind(settings);
 
             return settings;
