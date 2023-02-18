@@ -2,25 +2,28 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
+using Pan.Affiliation.Domain.Settings;
 using Pan.Affiliation.Infrastructure.Data;
+using Pan.Affiliation.Infrastructure.Settings;
+using Pan.Affiliation.Infrastructure.Settings.Sections;
+using static Pan.Affiliation.Shared.Constants.Configuration;
 
 namespace Pan.Affiliation.Infrastructure
 {
     public class InfrastructureModule : Module
     {
-        private readonly IConfiguration _configuration;
+        private readonly ISettingsProvider _settingsProvider;
 
         public InfrastructureModule(IConfiguration configuration)
         {
-            _configuration = configuration;
+            _settingsProvider = new SettingsProvider(configuration);
         }
 
         protected override void Load(ContainerBuilder builder)
         {
             var services = new ServiceCollection();
             services.AddDbContext<PanAffiliationDbContext>(builder =>
-                builder.UseNpgsql(GetConnectionString(), 
+                builder.UseNpgsql(GetConnectionString(),
                     b => b.MigrationsAssembly(GetMigrationsAssembly())));
         }
 
@@ -29,7 +32,13 @@ namespace Pan.Affiliation.Infrastructure
 
         private string GetConnectionString()
         {
-            return ""; 
+            var settings = _settingsProvider.GetSection<DatabaseSettings>(PanAffiliationDbSettingsKey);
+
+            return string.Format(PgConnectionString,
+                settings!.Host,
+                settings!.Username,
+                settings!.Password,
+                settings!.Database);
         }
     }
 }

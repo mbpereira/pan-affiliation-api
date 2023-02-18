@@ -7,5 +7,6 @@
         public string? Port { get; set; }
         public string? Host { get; set; }
         public string? Database { get; set; }
+        public bool ApplyMigrationsOnStartup { get; set; }
     }
 }
