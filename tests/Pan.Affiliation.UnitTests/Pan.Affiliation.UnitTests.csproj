@@ -9,6 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pan.Affiliation.Application\**" />
+    <Compile Remove="Pan.Affiliation.Domain\**" />
+    <Compile Remove="Pan.Affiliation.Infrastructure\**" />
+    <EmbeddedResource Remove="Pan.Affiliation.Application\**" />
+    <EmbeddedResource Remove="Pan.Affiliation.Domain\**" />
+    <EmbeddedResource Remove="Pan.Affiliation.Infrastructure\**" />
+    <None Remove="Pan.Affiliation.Application\**" />
+    <None Remove="Pan.Affiliation.Domain\**" />
+    <None Remove="Pan.Affiliation.Infrastructure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -19,12 +31,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pan.Affiliation.Domain\" />
-    <Folder Include="Pan.Affiliation.Infrastructure\" />
-    <Folder Include="Pan.Affiliation.Application\" />
   </ItemGroup>
 
 </Project>
