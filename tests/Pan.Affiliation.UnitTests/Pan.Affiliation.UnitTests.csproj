@@ -21,4 +21,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pan.Affiliation.Domain\" />
+    <Folder Include="Pan.Affiliation.Infrastructure\" />
+    <Folder Include="Pan.Affiliation.Application\" />
+  </ItemGroup>
+
 </Project>
