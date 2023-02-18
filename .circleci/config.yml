@@ -17,14 +17,14 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      - run: dotnet test --logger "trx" ~/project/tests/Pan.Affiliation.UnitTests
+      - run: dotnet test --logger "trx" ~/project/tests/Pan.Affiliation.UnitTests --results-directory ~/project/tests/results
       - run:
           name: test results
           when: always
           command: |
               dotnet tool install -g trx2junit &&
               export PATH="$PATH:/root/.dotnet/tools" &&
-              trx2junit **/tests/**/TestResults/*.trx
+              trx2junit **/tests/results/*.trx
       - store_test_results:
           path: ~/project/tests/Pan.Affiliation.UnitTests/TestResults
   deploy-staging:
