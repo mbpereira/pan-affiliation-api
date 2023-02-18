@@ -26,7 +26,7 @@ jobs:
               export PATH="$PATH:/root/.dotnet/tools" &&
               trx2junit ~/project/tests/results/*.trx
       - store_test_results:
-          path: ~/project/tests/Pan.Affiliation.UnitTests/TestResults
+          path: ~/project/tests/results
   deploy-staging:
     machine:
       image: ubuntu-2204:2022.10.2
