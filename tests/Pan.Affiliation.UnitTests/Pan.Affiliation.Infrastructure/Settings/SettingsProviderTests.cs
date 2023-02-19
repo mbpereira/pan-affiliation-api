@@ -1,9 +1,9 @@
 ﻿
 using Bogus;
 using FluentAssertions;
-using Microsoft.Extensions.Configuration;
 using Pan.Affiliation.Infrastructure.Settings;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
+using Pan.Affiliation.UnitTests.Utils;
 
 namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Settings
 {
@@ -17,9 +17,8 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Settings
             // Arrange
             var envName = "LOG";
             var envValue = true;
-            Environment.SetEnvironmentVariable(envName, envValue.ToString());
-            var configuration = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
+            var configuration = new CustomConfigurationBuilder()
+                .WithEnvironmentVariable(envName, envValue.ToString())
                 .Build();
             var provider = new SettingsProvider(configuration);
 
@@ -36,9 +35,8 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Settings
             // Arrange
             var envName = "PanAffiliationDatabaseSettings__Username";
             var envValue = _faker.Random.Word();
-            Environment.SetEnvironmentVariable(envName, envValue.ToString());
-            var configuration = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
+            var configuration = new CustomConfigurationBuilder()
+                .WithEnvironmentVariable(envName, envValue.ToString())
                 .Build();
             var provider = new SettingsProvider(configuration);
 
@@ -56,8 +54,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Settings
         public void When_GetSection_is_called_should_return_default_object_props_if_configuration_was_not_found()
         {
             // Arrange
-            var configuration = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
+            var configuration = new CustomConfigurationBuilder()
                 .Build();
             var provider = new SettingsProvider(configuration);
 

@@ -7,6 +7,7 @@ using Pan.Affiliation.Domain.Settings;
 using Pan.Affiliation.Infrastructure.Persistence;
 using Pan.Affiliation.Infrastructure.Settings;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
+using Pan.Affiliation.Shared.Constants;
 using static Pan.Affiliation.Shared.Constants.Configuration;
 
 namespace Pan.Affiliation.Infrastructure
@@ -27,9 +28,17 @@ namespace Pan.Affiliation.Infrastructure
                 builder.UseNpgsql(GetConnectionString(),
                     b => b.MigrationsAssembly(GetMigrationsAssembly())));
 
+            services.AddHttpClient(HttpClientConfiguration.IbgeClient);
+
             builder.Populate(services);
 
-            builder.RegisterInstance(_settingsProvider).SingleInstance();
+            builder
+                .RegisterInstance(_settingsProvider)
+                .SingleInstance();
+
+            builder.RegisterAssemblyTypes(typeof(InfrastructureModule).Assembly)
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
         }
 
         private static string? GetMigrationsAssembly()
