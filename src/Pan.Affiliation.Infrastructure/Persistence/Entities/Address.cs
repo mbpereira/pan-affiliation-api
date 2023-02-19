@@ -1,7 +1,7 @@
-﻿using Pan.Affiliation.Infrastructure.Data.Entities.Shared;
+﻿using Pan.Affiliation.Infrastructure.Persistence.Entities.Shared;
 using System.ComponentModel.DataAnnotations;
 
-namespace Pan.Affiliation.Infrastructure.Data.Entities.Customer
+namespace Pan.Affiliation.Infrastructure.Persistence.Entities
 {
     public class Address : BaseEntity
     {

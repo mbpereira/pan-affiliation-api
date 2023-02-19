@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pan.Affiliation.Domain.Settings;
-using Pan.Affiliation.Infrastructure.Data;
+using Pan.Affiliation.Infrastructure.Persistence;
 using Pan.Affiliation.Infrastructure.Settings;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
 using static Pan.Affiliation.Shared.Constants.Configuration;

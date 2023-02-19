@@ -2,7 +2,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Pan.Affiliation.Domain.Settings;
 using Pan.Affiliation.Infrastructure;
-using Pan.Affiliation.Infrastructure.Data;
+using Pan.Affiliation.Infrastructure.Persistence;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
 using static Pan.Affiliation.Shared.Constants.Configuration;
 

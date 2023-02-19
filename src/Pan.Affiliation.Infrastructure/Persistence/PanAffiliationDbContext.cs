@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Pan.Affiliation.Infrastructure.Data.Entities.Customer;
+using Pan.Affiliation.Infrastructure.Persistence.Entities;
 
-namespace Pan.Affiliation.Infrastructure.Data
+namespace Pan.Affiliation.Infrastructure.Persistence
 {
     public class PanAffiliationDbContext : DbContext
     {

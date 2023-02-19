@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Pan.Affiliation.Infrastructure.Data.Entities.Shared;
+using Pan.Affiliation.Infrastructure.Persistence.Entities.Shared;
 using System.ComponentModel.DataAnnotations;
 
-namespace Pan.Affiliation.Infrastructure.Data.Entities.Customer
+namespace Pan.Affiliation.Infrastructure.Persistence.Entities
 {
     [Index(nameof(DocumentNumber), IsUnique = true)]
     public class CustomerInformation : BaseEntity

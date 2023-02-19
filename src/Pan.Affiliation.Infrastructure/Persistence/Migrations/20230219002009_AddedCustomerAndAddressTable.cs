@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Pan.Affiliation.Infrastructure.Data.Migrations
+namespace Pan.Affiliation.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class AddedCustomerAndAddressTable : Migration

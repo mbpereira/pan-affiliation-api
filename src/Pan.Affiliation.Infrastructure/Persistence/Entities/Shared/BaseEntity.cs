@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Pan.Affiliation.Infrastructure.Data.Entities.Shared
+namespace Pan.Affiliation.Infrastructure.Persistence.Entities.Shared
 {
     public abstract class BaseEntity
     {
