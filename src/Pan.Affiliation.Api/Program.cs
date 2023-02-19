@@ -1,5 +1,6 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Pan.Affiliation.Application;
 using Pan.Affiliation.Domain.Settings;
 using Pan.Affiliation.Infrastructure;
 using Pan.Affiliation.Infrastructure.Persistence;
@@ -11,7 +12,9 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
 // Add services to the container.
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
-    containerBuilder.RegisterModule(new InfrastructureModule(builder.Configuration)));
+    containerBuilder
+        .RegisterModule(new InfrastructureModule(builder.Configuration))
+        .RegisterModule(new ApplicationModule()));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

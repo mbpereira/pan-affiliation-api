@@ -12,9 +12,31 @@ namespace Pan.Affiliation.Application.UseCases.GetStates
             _countryStatesService = countryStateService;
         }
 
-        public Task<IEnumerable<State>?> ExecuteAsync()
+        public async Task<IEnumerable<State>?> ExecuteAsync()
         {
-            return _countryStatesService.GetCountryStatesAsync();
+            var states = await _countryStatesService.GetCountryStatesAsync();
+
+            if (states is null)
+                return Enumerable.Empty<State>();
+
+            var priorityStates = new[] { "RJ", "SP" };
+
+            var dict = states.ToDictionary(s => s.Acronym!, StringComparer.InvariantCultureIgnoreCase);
+
+            var response = states
+                .Where(s => !priorityStates.Contains(s.Acronym!))
+                .OrderByDescending(s => s.Name)
+                .ToList();
+
+            foreach (var priority in priorityStates)
+            {
+                if (dict.TryGetValue(priority, out var state))
+                    response.Add(state);
+            }
+
+            response.Reverse();
+
+            return response;
         }
     }
 }

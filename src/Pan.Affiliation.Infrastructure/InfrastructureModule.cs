@@ -32,7 +32,13 @@ namespace Pan.Affiliation.Infrastructure
 
             builder.Populate(services);
 
-            builder.RegisterInstance(_settingsProvider).SingleInstance();
+            builder
+                .RegisterInstance(_settingsProvider)
+                .SingleInstance();
+
+            builder.RegisterAssemblyTypes(typeof(InfrastructureModule).Assembly)
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
         }
 
         private static string? GetMigrationsAssembly()
