@@ -12,7 +12,7 @@ namespace Pan.Affiliation.Infrastructure.Settings
             _configuration = configuration;
         }
 
-        public T? GetSection<T>(string key) where T : class, new()
+        public T GetSection<T>(string key) where T : class, new()
         {
             var settings = new T();
             var section = _configuration.GetSection(key);

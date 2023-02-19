@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
+    <Folder Include="Customer\Entities\" />
+    <Folder Include="Customer\Adapters\" />
   </ItemGroup>
 
 </Project>
