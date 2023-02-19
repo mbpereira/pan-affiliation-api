@@ -41,7 +41,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.HttpServices.
                 HttpStatusCode.BadRequest,
                 responseContent: "[]");
 
-            var act = async () => await ibgeClientService.GetStatesAsync();
+            var act = async () => await ibgeClientService.GetCountryStatesAsync();
 
             await act.Should().ThrowAsync<HttpRequestException>();
         }
@@ -58,7 +58,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.HttpServices.
                 HttpStatusCode.OK,
                 responseContent: JsonConvert.SerializeObject(states));
 
-            var response = await ibgeClientService.GetStatesAsync();
+            var response = await ibgeClientService.GetCountryStatesAsync();
 
             response.Should().BeEquivalentTo(states, opt =>
                 opt.WithoutStrictOrdering()
@@ -77,7 +77,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.HttpServices.
                 HttpStatusCode.OK,
                 responseContent: JsonConvert.SerializeObject(cities));
 
-            var response = await ibgeClientService.GetCitiesFromState(_faker.Random.Number());
+            var response = await ibgeClientService.GetCitiesFromStateAsync(_faker.Random.Number());
 
             response.Should().BeEquivalentTo(cities, opt =>
                 opt.WithoutStrictOrdering()

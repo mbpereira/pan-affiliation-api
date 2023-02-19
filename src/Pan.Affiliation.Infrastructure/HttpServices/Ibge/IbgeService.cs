@@ -10,7 +10,7 @@ using static Pan.Affiliation.Shared.Constants.Configuration;
 
 namespace Pan.Affiliation.Infrastructure.Services.Ibge
 {
-    public class IbgeService : HttpService, ICityAdapter, IStateAdapter
+    public class IbgeService : HttpService, ICityService, ICountryStatesService
     {
         private readonly HttpClient _http;
         private readonly HttpServiceSettings _settings;
@@ -22,7 +22,7 @@ namespace Pan.Affiliation.Infrastructure.Services.Ibge
             _http.BaseAddress = new Uri(_settings.BaseUrl!);
         }
 
-        public async Task<IEnumerable<City>?> GetCitiesFromState(int stateId)
+        public async Task<IEnumerable<City>?> GetCitiesFromStateAsync(int stateId)
         {
             var response = await _http.GetAsync(string.Format(GetCitiesFromStatePath, stateId));
 
@@ -31,7 +31,7 @@ namespace Pan.Affiliation.Infrastructure.Services.Ibge
             return cities?.Select(s => s.ToEntity());
         }
 
-        public async Task<IEnumerable<State>?> GetStatesAsync()
+        public async Task<IEnumerable<State>?> GetCountryStatesAsync()
         {
             var response = await _http.GetAsync(GetSatesPath);
 

@@ -2,8 +2,8 @@
 
 namespace Pan.Affiliation.Domain.Localization.Adapters
 {
-    public interface IStateAdapter
+    public interface ICountryStatesService
     {
-        Task<IEnumerable<State>?> GetStatesAsync();
+        Task<IEnumerable<State>?> GetCountryStatesAsync();
     }
 }
