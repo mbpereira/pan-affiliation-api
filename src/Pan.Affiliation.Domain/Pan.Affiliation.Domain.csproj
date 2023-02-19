@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Pan.Affiliation.Shared\Pan.Affiliation.Shared.csproj" />
+    <Folder Include="Customer\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Customer\" />
+    <ProjectReference Include="..\Pan.Affiliation.Shared\Pan.Affiliation.Shared.csproj" />
   </ItemGroup>
 
 </Project>
