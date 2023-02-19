@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,10 @@ namespace Pan.Affiliation.Infrastructure
             services.AddDbContext<PanAffiliationDbContext>(builder =>
                 builder.UseNpgsql(GetConnectionString(),
                     b => b.MigrationsAssembly(GetMigrationsAssembly())));
+
+            builder.Populate(services);
+
+            builder.RegisterInstance(_settingsProvider).SingleInstance();
         }
 
         private static string? GetMigrationsAssembly()

@@ -22,12 +22,20 @@ var app = builder.Build();
 
 {
     using var scope = app.Services.CreateScope();
-    var settingsProvider = scope.ServiceProvider.GetRequiredService<ISettingsProvider>();
-    var dbSettings = settingsProvider.GetSection<DbSettings>(PanAffiliationDbSettingsKey);
+    
+    var settingsProvider = scope
+        .ServiceProvider
+        .GetRequiredService<ISettingsProvider>();
+
+    var dbSettings = settingsProvider
+            .GetSection<DbSettings>(PanAffiliationDbSettingsKey);
 
     if (dbSettings!.ApplyMigrationsOnStartup)
     {
-        var dbContext = scope.ServiceProvider.GetRequiredService<PanAffiliationDbContext>();
+        var dbContext = scope
+            .ServiceProvider
+            .GetRequiredService<PanAffiliationDbContext>();
+        
         await dbContext.ApplyMigrationsAsync();
     }
 }

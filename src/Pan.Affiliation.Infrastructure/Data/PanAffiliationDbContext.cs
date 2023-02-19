@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Pan.Affiliation.Infrastructure.Data.Entities.Customer;
 
 namespace Pan.Affiliation.Infrastructure.Data
 {
@@ -8,7 +9,7 @@ namespace Pan.Affiliation.Infrastructure.Data
         {
         }
 
-        public PanAffiliationDbContext(DbContextOptions<DbContext> opt)
+        public PanAffiliationDbContext(DbContextOptions<PanAffiliationDbContext> opt)
             : base(opt) { }
 
         public async Task ApplyMigrationsAsync()
@@ -20,5 +21,8 @@ namespace Pan.Affiliation.Infrastructure.Data
                 await Database.MigrateAsync();
             }
         }
+
+        public DbSet<CustomerInformation> Customers { get; set; }
+        public DbSet<Address> Addresses { get; set; }
     }
 }
