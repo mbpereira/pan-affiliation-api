@@ -3,7 +3,7 @@ using Pan.Affiliation.Domain.Localization.Entities;
 
 namespace Pan.Affiliation.Application.UseCases.GetStates
 {
-    public class GetStatesUseCase : IParameterlessUseCase<IEnumerable<State>?>
+    public class GetStatesUseCase : IGetStatesUseCase
     {
         private readonly ICountryStatesService _countryStatesService;
 
@@ -12,7 +12,7 @@ namespace Pan.Affiliation.Application.UseCases.GetStates
             _countryStatesService = countryStateService;
         }
 
-        public Task<IEnumerable<State>?> Execute()
+        public Task<IEnumerable<State>?> ExecuteAsync()
         {
             return _countryStatesService.GetCountryStatesAsync();
         }

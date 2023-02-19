@@ -2,6 +2,6 @@
 {
     public interface IParameterlessUseCase<TResponse>
     {
-        Task<TResponse> Execute();
+        Task<TResponse> ExecuteAsync();
     }
 }

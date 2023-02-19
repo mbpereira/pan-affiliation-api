@@ -7,6 +7,7 @@ using Pan.Affiliation.Domain.Settings;
 using Pan.Affiliation.Infrastructure.Persistence;
 using Pan.Affiliation.Infrastructure.Settings;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
+using Pan.Affiliation.Shared.Constants;
 using static Pan.Affiliation.Shared.Constants.Configuration;
 
 namespace Pan.Affiliation.Infrastructure
@@ -26,6 +27,8 @@ namespace Pan.Affiliation.Infrastructure
             services.AddDbContext<PanAffiliationDbContext>(builder =>
                 builder.UseNpgsql(GetConnectionString(),
                     b => b.MigrationsAssembly(GetMigrationsAssembly())));
+
+            services.AddHttpClient(HttpClientConfiguration.IbgeClient);
 
             builder.Populate(services);
 

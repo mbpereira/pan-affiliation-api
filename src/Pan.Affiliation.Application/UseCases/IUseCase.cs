@@ -2,6 +2,6 @@
 {
     public interface IUseCase<TParam, TResponse>
     {
-        Task<TResponse> Execute(TParam param);
+        Task<TResponse> ExecuteAsync(TParam param);
     }
 }
