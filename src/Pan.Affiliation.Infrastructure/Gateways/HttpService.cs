@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Pan.Affiliation.Infrastructure.HttpServices
+namespace Pan.Affiliation.Infrastructure.Gateways
 {
     public abstract class HttpService
     {

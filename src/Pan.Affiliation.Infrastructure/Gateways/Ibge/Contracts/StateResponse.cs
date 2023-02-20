@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Pan.Affiliation.Domain.Localization.Entities;
 
-namespace Pan.Affiliation.Infrastructure.HttpServices.Ibge.Contracts
+namespace Pan.Affiliation.Infrastructure.Gateways.Ibge.Contracts
 {
     public class StateResponse
     {

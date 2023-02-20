@@ -1,17 +1,17 @@
-﻿using AutoBogus;
+﻿using System.Net;
+using AutoBogus;
 using Bogus;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Pan.Affiliation.Domain.Settings;
-using Pan.Affiliation.Infrastructure.HttpServices.Ibge.Contracts;
-using Pan.Affiliation.Infrastructure.Services.Ibge;
+using Pan.Affiliation.Infrastructure.Gateways.Ibge;
+using Pan.Affiliation.Infrastructure.Gateways.Ibge.Contracts;
 using Pan.Affiliation.Infrastructure.Settings;
 using Pan.Affiliation.UnitTests.Utils;
-using System.Net;
 using static Pan.Affiliation.Shared.Constants.Configuration;
 using static Pan.Affiliation.Shared.Constants.HttpClientConfiguration;
 
-namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.HttpServices.Ibge
+namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Gateways.Ibge
 {
     public class IbgeServiceTests
     {

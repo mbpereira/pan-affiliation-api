@@ -1,14 +1,13 @@
 ﻿using Pan.Affiliation.Domain.Localization.Adapters;
 using Pan.Affiliation.Domain.Localization.Entities;
 using Pan.Affiliation.Domain.Settings;
-using Pan.Affiliation.Infrastructure.HttpServices;
-using Pan.Affiliation.Infrastructure.HttpServices.Ibge.Contracts;
+using Pan.Affiliation.Infrastructure.Gateways.Ibge.Contracts;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
 using static Pan.Affiliation.Shared.Constants.HttpClientConfiguration;
 using static Pan.Affiliation.Shared.Constants.HttpServices.Ibge;
 using static Pan.Affiliation.Shared.Constants.Configuration;
 
-namespace Pan.Affiliation.Infrastructure.Services.Ibge
+namespace Pan.Affiliation.Infrastructure.Gateways.Ibge
 {
     public class IbgeService : HttpService, ICityService, ICountryStatesService
     {
