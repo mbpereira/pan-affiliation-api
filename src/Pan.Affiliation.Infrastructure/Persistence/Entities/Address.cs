@@ -6,7 +6,7 @@ namespace Pan.Affiliation.Infrastructure.Persistence.Entities
     public class Address : BaseEntity
     {
         [MaxLength(8), Required]
-        public string? ZipCode { get; set; }
+        public string? PostalCode { get; set; }
 
         [MaxLength(300), Required]
         public string? Street { get; set; }

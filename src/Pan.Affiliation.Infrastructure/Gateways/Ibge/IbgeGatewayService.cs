@@ -1,21 +1,20 @@
 ﻿using Pan.Affiliation.Domain.Localization.Adapters;
 using Pan.Affiliation.Domain.Localization.Entities;
 using Pan.Affiliation.Domain.Settings;
-using Pan.Affiliation.Infrastructure.HttpServices;
-using Pan.Affiliation.Infrastructure.HttpServices.Ibge.Contracts;
+using Pan.Affiliation.Infrastructure.Gateways.Ibge.Contracts;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
 using static Pan.Affiliation.Shared.Constants.HttpClientConfiguration;
 using static Pan.Affiliation.Shared.Constants.HttpServices.Ibge;
 using static Pan.Affiliation.Shared.Constants.Configuration;
 
-namespace Pan.Affiliation.Infrastructure.Services.Ibge
+namespace Pan.Affiliation.Infrastructure.Gateways.Ibge
 {
-    public class IbgeService : HttpService, ICityService, ICountryStatesService
+    public class IbgeGatewayService : HttpService, ICityService, ICountryStatesService
     {
         private readonly HttpClient _http;
         private readonly HttpServiceSettings _settings;
 
-        public IbgeService(IHttpClientFactory factory, ISettingsProvider settingsProvider)
+        public IbgeGatewayService(IHttpClientFactory factory, ISettingsProvider settingsProvider)
         {
             _settings = settingsProvider.GetSection<HttpServiceSettings>(IbgeSettingsKey);
             _http = factory.CreateClient(IbgeClient);

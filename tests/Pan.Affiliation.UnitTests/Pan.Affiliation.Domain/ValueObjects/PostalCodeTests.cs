@@ -3,16 +3,16 @@ using Pan.Affiliation.Domain.ValueObjects;
 
 namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Domain.ValueObjects
 {
-    public class CepTests
+    public class PostalCodeTests
     {
         [Theory]
         [InlineData("78085630")]
         [InlineData("78085-630")]
-        public void Cep_IsValid_ShouldReturnTrueIfCepIsValid(string validCep)
+        public void Cep_IsValid_ShouldReturnTrueIfCepIsValid(string validPostalCode)
         {
-            Cep cep = new(validCep);
+            PostalCode postalCode = new(validPostalCode);
 
-            var isValid = cep.IsValid;
+            var isValid = postalCode.IsValid;
 
             isValid.Should().BeTrue();
         }
@@ -28,11 +28,11 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Domain.ValueObjects
         [InlineData("123456789")]
         [InlineData("123456-789")]
         [InlineData("12345-7890")]
-        public void Cep_IsValid_ShouldReturnFalseIfCepIsNotValid(string invalidCep)
+        public void Cep_IsValid_ShouldReturnFalseIfCepIsNotValid(string invalidPostalCode)
         {
-            Cep cep = new(invalidCep);
+            PostalCode postalCode = new(invalidPostalCode);
 
-            var isValid = cep.IsValid;
+            var isValid = postalCode.IsValid;
 
             isValid.Should().BeFalse();
         }

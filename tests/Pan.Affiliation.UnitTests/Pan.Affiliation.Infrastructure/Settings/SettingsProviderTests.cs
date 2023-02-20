@@ -17,10 +17,9 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Settings
             // Arrange
             var envName = "LOG";
             var envValue = true;
-            var configuration = new CustomConfigurationBuilder()
+            var provider = new SettingsProviderBuilder()
                 .WithEnvironmentVariable(envName, envValue.ToString())
                 .Build();
-            var provider = new SettingsProvider(configuration);
 
             // Act
             var result = provider.GetValue<bool>(envName);
@@ -35,10 +34,9 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Settings
             // Arrange
             var envName = "PanAffiliationDatabaseSettings__Username";
             var envValue = _faker.Random.Word();
-            var configuration = new CustomConfigurationBuilder()
+            var provider = new SettingsProviderBuilder()
                 .WithEnvironmentVariable(envName, envValue.ToString())
                 .Build();
-            var provider = new SettingsProvider(configuration);
 
             // Act
             var result = provider.GetSection<DbSettings>("PanAffiliationDatabaseSettings");
@@ -54,9 +52,8 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Settings
         public void When_GetSection_is_called_should_return_default_object_props_if_configuration_was_not_found()
         {
             // Arrange
-            var configuration = new CustomConfigurationBuilder()
+            var provider = new SettingsProviderBuilder()
                 .Build();
-            var provider = new SettingsProvider(configuration);
 
             // Act
             var result = provider.GetSection<DbSettings>("PanAffiliationDatabaseSettings");

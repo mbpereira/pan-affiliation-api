@@ -2,7 +2,7 @@
 
 namespace Pan.Affiliation.Application.UseCases.GetStates
 {
-    public interface IGetStatesUseCase : IParameterlessUseCase<IEnumerable<State>?>
+    public interface IGetCountryStatesUseCase : IParameterlessUseCase<IEnumerable<State>?>
     {
     }
 }

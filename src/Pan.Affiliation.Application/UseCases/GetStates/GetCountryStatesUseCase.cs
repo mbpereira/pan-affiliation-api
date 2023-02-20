@@ -3,11 +3,11 @@ using Pan.Affiliation.Domain.Localization.Entities;
 
 namespace Pan.Affiliation.Application.UseCases.GetStates
 {
-    public class GetStatesUseCase : IGetStatesUseCase
+    public class GetCountryStatesUseCase : IGetCountryStatesUseCase
     {
         private readonly ICountryStatesService _countryStatesService;
 
-        public GetStatesUseCase(ICountryStatesService countryStateService)
+        public GetCountryStatesUseCase(ICountryStatesService countryStateService)
         {
             _countryStatesService = countryStateService;
         }

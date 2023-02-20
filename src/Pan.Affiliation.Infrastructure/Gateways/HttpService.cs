@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
 
-namespace Pan.Affiliation.Infrastructure.HttpServices
+namespace Pan.Affiliation.Infrastructure.Gateways
 {
     public abstract class HttpService
     {
-        public async Task<T> DeserializeResponseAsync<T>(HttpResponseMessage response)
+        protected async Task<T> DeserializeResponseAsync<T>(HttpResponseMessage response)
         {
             response.EnsureSuccessStatusCode();
 

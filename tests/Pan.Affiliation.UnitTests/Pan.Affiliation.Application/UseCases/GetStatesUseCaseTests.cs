@@ -29,7 +29,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Application.UseCases
             };
             _countryStatesService.GetCountryStatesAsync()
                 .Returns(states);
-            var useCase = new GetStatesUseCase(_countryStatesService);
+            var useCase = new GetCountryStatesUseCase(_countryStatesService);
 
             // act
             var response = await useCase.ExecuteAsync();
@@ -51,7 +51,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Application.UseCases
             // arrange
             _countryStatesService.GetCountryStatesAsync()
                 .Returns(Task.FromResult<IEnumerable<State>?>(null));
-            var useCase = new GetStatesUseCase(_countryStatesService);
+            var useCase = new GetCountryStatesUseCase(_countryStatesService);
 
             // act
             var response = await useCase.ExecuteAsync();

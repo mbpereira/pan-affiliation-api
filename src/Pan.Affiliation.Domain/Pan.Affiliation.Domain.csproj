@@ -10,9 +10,4 @@
     <ProjectReference Include="..\Pan.Affiliation.Shared\Pan.Affiliation.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Customer\Entities\" />
-    <Folder Include="Customer\Adapters\" />
-  </ItemGroup>
-
 </Project>
