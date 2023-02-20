@@ -13,7 +13,7 @@ public class GetPostalCodeInformationUseCase : IGetPostalCodeInformationUseCase
         _service = service;
     }
 
-    public Task<PostalCodeInformation> ExecuteAsync(PostalCode param)
+    public Task<PostalCodeInformation?> ExecuteAsync(PostalCode param)
         =>
             _service.GetPostalCodeInformationAsync(param);
 }
