@@ -9,12 +9,12 @@ using static Pan.Affiliation.Shared.Constants.Configuration;
 
 namespace Pan.Affiliation.Infrastructure.Gateways.Ibge
 {
-    public class IbgeService : HttpService, ICityService, ICountryStatesService
+    public class IbgeGatewayService : HttpService, ICityService, ICountryStatesService
     {
         private readonly HttpClient _http;
         private readonly HttpServiceSettings _settings;
 
-        public IbgeService(IHttpClientFactory factory, ISettingsProvider settingsProvider)
+        public IbgeGatewayService(IHttpClientFactory factory, ISettingsProvider settingsProvider)
         {
             _settings = settingsProvider.GetSection<HttpServiceSettings>(IbgeSettingsKey);
             _http = factory.CreateClient(IbgeClient);

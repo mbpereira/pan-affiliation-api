@@ -6,37 +6,34 @@ using Newtonsoft.Json;
 using Pan.Affiliation.Domain.Settings;
 using Pan.Affiliation.Infrastructure.Gateways.Ibge;
 using Pan.Affiliation.Infrastructure.Gateways.Ibge.Contracts;
-using Pan.Affiliation.Infrastructure.Settings;
 using Pan.Affiliation.UnitTests.Utils;
 using static Pan.Affiliation.Shared.Constants.Configuration;
 using static Pan.Affiliation.Shared.Constants.HttpClientConfiguration;
 
 namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Gateways.Ibge
 {
-    public class IbgeServiceTests
+    public class IbgeGatewayServiceTests
     {
         private readonly ISettingsProvider _settingsProvider;
         private readonly Faker _faker = new();
 
-        public IbgeServiceTests()
+        public IbgeGatewayServiceTests()
         {
             _settingsProvider = GetSettingsProvider();
         }
 
-        private static SettingsProvider GetSettingsProvider()
+        private static ISettingsProvider GetSettingsProvider()
         {
-            var config = new CustomConfigurationBuilder()
+            return new SettingsProviderBuilder()
                 .WithEnvironmentVariable($"{IbgeSettingsKey}__BaseUrl", "https://www.google.com/")
                 .Build();
-
-            return new SettingsProvider(config);
         }
 
         [Fact]
         public async Task When_GetStatesAsync_Called_should_throws_exception_if_http_response_is_not_success()
         {
             var ibgeClientService = HttpClientFactoryUtils.CreateMockedHttpClientFactory(
-                factory => new IbgeService(factory, _settingsProvider),
+                factory => new IbgeGatewayService(factory, _settingsProvider),
                 IbgeClient,
                 HttpStatusCode.BadRequest,
                 responseContent: "[]");
@@ -53,7 +50,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Gateways.Ibge
                 .Generate(3);
 
             var ibgeClientService = HttpClientFactoryUtils.CreateMockedHttpClientFactory(
-                factory => new IbgeService(factory, _settingsProvider),
+                factory => new IbgeGatewayService(factory, _settingsProvider),
                 IbgeClient,
                 HttpStatusCode.OK,
                 responseContent: JsonConvert.SerializeObject(states));
@@ -72,7 +69,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Gateways.Ibge
                 .Generate(3);
 
             var ibgeClientService = HttpClientFactoryUtils.CreateMockedHttpClientFactory(
-                factory => new IbgeService(factory, _settingsProvider),
+                factory => new IbgeGatewayService(factory, _settingsProvider),
                 IbgeClient,
                 HttpStatusCode.OK,
                 responseContent: JsonConvert.SerializeObject(cities));

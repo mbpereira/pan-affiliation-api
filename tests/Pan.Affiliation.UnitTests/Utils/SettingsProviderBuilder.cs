@@ -1,46 +1,48 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Pan.Affiliation.Domain.Settings;
+using Pan.Affiliation.Infrastructure.Settings;
 
 namespace Pan.Affiliation.UnitTests.Utils
 {
-    public class CustomConfigurationBuilder
+    public class SettingsProviderBuilder
     {
         private readonly ConfigurationBuilder _configuration;
         private readonly IList<KeyValuePair<string, string?>> _configCollection;
 
-        public CustomConfigurationBuilder()
+        public SettingsProviderBuilder()
         {
             _configuration = new ConfigurationBuilder();
             _configCollection = new List<KeyValuePair<string, string?>>();
         }
 
-        public CustomConfigurationBuilder WithEnvironmentVariable(string key, string value)
+        public SettingsProviderBuilder WithEnvironmentVariable(string key, string value)
         {
             Environment.SetEnvironmentVariable(key, value);
             return this;
         }
 
-        public CustomConfigurationBuilder WithConfiguration(IConfiguration configuration)
+        public SettingsProviderBuilder WithConfiguration(IConfiguration configuration)
         {
             _configuration.AddConfiguration(configuration);
             return this;
         }
 
-        public CustomConfigurationBuilder WithCollection(IEnumerable<KeyValuePair<string, string?>> configCollection)
+        public SettingsProviderBuilder WithCollection(IEnumerable<KeyValuePair<string, string?>> configCollection)
         {
             _configuration.AddInMemoryCollection(configCollection);
             return this;
         }
 
-        public CustomConfigurationBuilder AddConfig(string key, string value)
+        public SettingsProviderBuilder AddConfig(string key, string value)
         {
             _configCollection.Add(new KeyValuePair<string, string?>(key, value));
             return this;
         }
 
-        public IConfiguration Build()
-            => _configuration
+        public ISettingsProvider Build()
+            => new SettingsProvider(_configuration
                 .AddInMemoryCollection(_configCollection)
                 .AddEnvironmentVariables()
-                .Build();
+                .Build());
     }
 }

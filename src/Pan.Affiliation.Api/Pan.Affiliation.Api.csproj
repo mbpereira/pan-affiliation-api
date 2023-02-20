@@ -25,4 +25,10 @@
     <ProjectReference Include="..\Pan.Affiliation.Infrastructure\Pan.Affiliation.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pan.Affiliation.Api\obj\Debug\net6.0\project.razor.json" />
+    <_ContentIncludedByDefault Remove="Pan.Affiliation.Api\obj\Pan.Affiliation.Api.csproj.nuget.dgspec.json" />
+    <_ContentIncludedByDefault Remove="Pan.Affiliation.Api\obj\project.assets.json" />
+  </ItemGroup>
+
 </Project>
