@@ -22,7 +22,7 @@ public class ViaCepGatewayService : HttpService, IPostalCodeInformationService
         _http.BaseAddress = new(_settings.BaseUrl!);
     }
 
-    public async Task<PostalCodeInformation> GetPostalCodeInformationAsync(PostalCode postalCode)
+    public async Task<PostalCodeInformation?> GetPostalCodeInformationAsync(PostalCode postalCode)
     {
         var path = string.Format(GetPostalCodeInformationPath, postalCode.ToString());
         var response = await _http.GetAsync(path);

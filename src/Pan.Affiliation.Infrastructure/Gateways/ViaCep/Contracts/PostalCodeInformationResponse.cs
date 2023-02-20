@@ -6,19 +6,19 @@ namespace Pan.Affiliation.Infrastructure.Gateways.ViaCep.Contracts;
 public class PostalCodeInformationResponse
 {
     [JsonProperty("cep")]
-    public string PostalCode { get; set; }
+    public string? PostalCode { get; set; }
     
     [JsonProperty("logradouro")]
-    public string Street { get; set; }
+    public string? Street { get; set; }
     
     [JsonProperty("bairro")]
-    public string Neighborhood { get; set; }
+    public string? Neighborhood { get; set; }
     
     [JsonProperty("uf")]
-    public string State { get; set; }
+    public string? State { get; set; }
     
     [JsonProperty("localidade")]
-    public string City { get; set; }
+    public string? City { get; set; }
 
     internal PostalCodeInformation ToEntity() => new()
     {
