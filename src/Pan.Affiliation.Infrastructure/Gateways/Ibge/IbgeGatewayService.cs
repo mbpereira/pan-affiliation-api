@@ -1,5 +1,6 @@
 ﻿using Pan.Affiliation.Domain.Localization.Adapters;
 using Pan.Affiliation.Domain.Localization.Entities;
+using Pan.Affiliation.Domain.Logging;
 using Pan.Affiliation.Domain.Settings;
 using Pan.Affiliation.Infrastructure.Gateways.Ibge.Contracts;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
@@ -14,7 +15,10 @@ namespace Pan.Affiliation.Infrastructure.Gateways.Ibge
         private readonly HttpClient _http;
         private readonly HttpServiceSettings _settings;
 
-        public IbgeGatewayService(IHttpClientFactory factory, ISettingsProvider settingsProvider)
+        public IbgeGatewayService(
+            IHttpClientFactory factory, 
+            ISettingsProvider settingsProvider,
+            ILogger<IbgeGatewayService> logger) : base(logger)
         {
             _settings = settingsProvider.GetSection<HttpServiceSettings>(IbgeSettingsKey);
             _http = factory.CreateClient(IbgeClient);
