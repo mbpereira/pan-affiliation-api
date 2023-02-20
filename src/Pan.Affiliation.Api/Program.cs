@@ -20,7 +20,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
         .RegisterModule(new InfrastructureModule(builder.Configuration))
         .RegisterModule(new ApplicationModule()));
 
-builder.Host.UseSerilog(((_, provider, loggerConfig) =>
+builder.Host.UseSerilog((_, provider, loggerConfig) =>
 {
     var settingsProvider = provider.GetRequiredService<ISettingsProvider>();
     var settings = settingsProvider.GetSection<LogSettings>(LoggingSettingsKey);
@@ -34,7 +34,7 @@ builder.Host.UseSerilog(((_, provider, loggerConfig) =>
         .Enrich.WithEnvironmentName()
         .Enrich.WithMachineName()
         .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning);
-}));
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -42,7 +42,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
 
 {
     using var scope = app.Services.CreateScope();

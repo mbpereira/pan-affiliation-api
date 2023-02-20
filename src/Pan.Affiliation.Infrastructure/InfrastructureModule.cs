@@ -1,17 +1,18 @@
-﻿using System.Net;
-using System.Security.Authentication;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Pan.Affiliation.Domain.Logging;
+using Microsoft.Extensions.Logging;
 using Pan.Affiliation.Domain.Settings;
-using Pan.Affiliation.Infrastructure.Logging;
 using Pan.Affiliation.Infrastructure.Persistence;
 using Pan.Affiliation.Infrastructure.Settings;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
 using Pan.Affiliation.Shared.Constants;
+using Redbox.Serilog.Stackdriver;
+using Serilog;
+using Serilog.Enrichers.Span;
+using Serilog.Formatting.Compact;
 using static Pan.Affiliation.Shared.Constants.Configuration;
 
 namespace Pan.Affiliation.Infrastructure
@@ -19,32 +20,32 @@ namespace Pan.Affiliation.Infrastructure
     public class InfrastructureModule : Module
     {
         private readonly ISettingsProvider _settingsProvider;
+        private readonly IServiceCollection _services;
 
         public InfrastructureModule(IConfiguration configuration)
         {
             _settingsProvider = new SettingsProvider(configuration);
+            _services = new ServiceCollection();
         }
 
         protected override void Load(ContainerBuilder builder)
         {
-            var services = new ServiceCollection();
-            services.AddDbContext<PanAffiliationDbContext>(builder =>
+            _services.AddDbContext<PanAffiliationDbContext>(builder =>
                 builder.UseNpgsql(GetConnectionString(),
                     b => b.MigrationsAssembly(GetMigrationsAssembly())));
 
-            AddHttpClient(services, HttpClientConfiguration.IbgeClient);
-            AddHttpClient(services, HttpClientConfiguration.ViaCepClient);
+            AddHttpClient(HttpClientConfiguration.IbgeClient);
+            AddHttpClient(HttpClientConfiguration.ViaCepClient);
+            AddSerilog();
 
-            services.AddHttpClient(HttpClientConfiguration.ViaCepClient);
-
-            builder.Populate(services);
+            builder.Populate(_services);
 
             builder
                 .RegisterInstance(_settingsProvider)
                 .SingleInstance();
 
-            builder.RegisterGeneric(typeof(Logger<>))
-                .As(typeof(ILogger<>))
+            builder.RegisterGeneric(typeof(Logging.Logger<>))
+                .As(typeof(Domain.Logging.ILogger<>))
                 .InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(typeof(InfrastructureModule).Assembly)
@@ -52,9 +53,35 @@ namespace Pan.Affiliation.Infrastructure
                 .InstancePerLifetimeScope();
         }
 
-        private static void AddHttpClient(ServiceCollection services, string httpClientIdentifier)
+        private void AddSerilog()
         {
-            services.AddHttpClient(httpClientIdentifier)
+            _services.AddLogging(loggingBuilder =>
+            {
+                var settings = _settingsProvider.GetSection<LogSettings>(LoggingSettingsKey);
+
+                var logger = new LoggerConfiguration()
+                    .Enrich.FromLogContext()
+                    .Enrich.WithEnvironmentName()
+                    .Enrich.WithMachineName()
+                    .Enrich.WithClientAgent()
+                    .Enrich.WithClientIp()
+                    .Enrich.WithCorrelationId()
+                    .Enrich.WithTraceIdentifier()
+                    .Enrich.WithSpan()
+                    .WriteTo.Console()
+                    .WriteTo.NewRelicLogs(licenseKey: settings.NewRelicSettings?.LicenseKey,
+                        applicationName: settings.NewRelicSettings.ApplicationName)
+                    .WriteTo.File(settings.LogFile!)
+                    .CreateLogger();
+                
+                loggingBuilder.ClearProviders();
+                loggingBuilder.AddSerilog(logger);
+            });
+        }
+
+        private void AddHttpClient(string httpClientIdentifier)
+        {
+            _services.AddHttpClient(httpClientIdentifier)
                 .SetHandlerLifetime(TimeSpan.FromHours(1));
         }
 
