@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using static Pan.Affiliation.Shared.Constants.Regex;
 
 namespace Pan.Affiliation.Domain.ValueObjects
 {
@@ -14,7 +15,7 @@ namespace Pan.Affiliation.Domain.ValueObjects
         }
 
         private static bool Validate(string cep)
-            => !string.IsNullOrEmpty(cep) && Regex.IsMatch(cep, Shared.Constants.Regex.ValidCep);
+            => !string.IsNullOrEmpty(cep) && Regex.IsMatch(cep, ValidCep);
 
         public static implicit operator PostalCode(string cep)
             => new(cep);
