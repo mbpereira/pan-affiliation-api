@@ -7,7 +7,7 @@ namespace Pan.Affiliation.Api.Controllers.v1
     public class StatesController : DefaultController
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<State>>> GetCountryStatesAsync([FromServices] IGetStatesUseCase useCase)
+        public async Task<ActionResult<IEnumerable<State>>> GetCountryStatesAsync([FromServices] IGetCountryStatesUseCase useCase)
         {
             return Ok(await useCase.ExecuteAsync());
         }

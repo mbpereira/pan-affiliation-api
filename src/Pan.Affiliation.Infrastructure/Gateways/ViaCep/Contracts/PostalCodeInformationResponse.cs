@@ -20,7 +20,7 @@ public class PostalCodeInformationResponse
     [JsonProperty("localidade")]
     public string City { get; set; }
 
-    internal PostalAddress ToEntity() => new()
+    internal PostalCodeInformation ToEntity() => new()
     {
         PostalCode = PostalCode,
         Street = Street,
