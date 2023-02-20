@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Pan.Affiliation.Application.UseCases.GetStates;
+using Pan.Affiliation.Application.UseCases.GetCountryStates;
 using Pan.Affiliation.Domain.Localization.Entities;
 
 namespace Pan.Affiliation.Api.Controllers.v1

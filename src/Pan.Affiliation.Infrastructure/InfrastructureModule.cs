@@ -1,9 +1,13 @@
-﻿using Autofac;
+﻿using System.Net;
+using System.Security.Authentication;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pan.Affiliation.Domain.Logging;
 using Pan.Affiliation.Domain.Settings;
+using Pan.Affiliation.Infrastructure.Logging;
 using Pan.Affiliation.Infrastructure.Persistence;
 using Pan.Affiliation.Infrastructure.Settings;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
@@ -28,7 +32,10 @@ namespace Pan.Affiliation.Infrastructure
                 builder.UseNpgsql(GetConnectionString(),
                     b => b.MigrationsAssembly(GetMigrationsAssembly())));
 
-            services.AddHttpClient(HttpClientConfiguration.IbgeClient);
+            AddHttpClient(services, HttpClientConfiguration.IbgeClient);
+            AddHttpClient(services, HttpClientConfiguration.ViaCepClient);
+
+            services.AddHttpClient(HttpClientConfiguration.ViaCepClient);
 
             builder.Populate(services);
 
@@ -36,9 +43,19 @@ namespace Pan.Affiliation.Infrastructure
                 .RegisterInstance(_settingsProvider)
                 .SingleInstance();
 
+            builder.RegisterGeneric(typeof(Logger<>))
+                .As(typeof(ILogger<>))
+                .InstancePerLifetimeScope();
+
             builder.RegisterAssemblyTypes(typeof(InfrastructureModule).Assembly)
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
+        }
+
+        private static void AddHttpClient(ServiceCollection services, string httpClientIdentifier)
+        {
+            services.AddHttpClient(httpClientIdentifier)
+                .SetHandlerLifetime(TimeSpan.FromHours(1));
         }
 
         private static string? GetMigrationsAssembly()
