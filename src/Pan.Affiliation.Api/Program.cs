@@ -1,6 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Pan.Affiliation.Application;
+using Pan.Affiliation.Domain;
 using Pan.Affiliation.Domain.Settings;
 using Pan.Affiliation.Infrastructure;
 using Pan.Affiliation.Infrastructure.Persistence;
@@ -14,6 +15,7 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
     containerBuilder
         .RegisterModule(new InfrastructureModule(builder.Configuration))
+        .RegisterModule(new DomainModule())
         .RegisterModule(new ApplicationModule()));
 
 builder.Services.AddControllers();

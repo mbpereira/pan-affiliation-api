@@ -14,4 +14,10 @@
     <PackageReference Include="FluentValidation" Version="11.5.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\..\..\..\.nuget\packages\autofac\6.5.0\lib\net6.0\Autofac.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

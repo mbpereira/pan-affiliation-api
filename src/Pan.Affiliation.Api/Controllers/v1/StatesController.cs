@@ -1,15 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Pan.Affiliation.Application.UseCases.GetStates;
-using Pan.Affiliation.Domain.Localization.Entities;
+using Pan.Affiliation.Domain.Shared;
 
 namespace Pan.Affiliation.Api.Controllers.v1
 {
     public class StatesController : DefaultController
     {
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<State>>> GetCountryStatesAsync([FromServices] IGetCountryStatesUseCase useCase)
+        public StatesController(IValidationContext context) : base(context)
         {
-            return Ok(await useCase.ExecuteAsync());
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCountryStatesAsync(
+            [FromServices] IGetCountryStatesUseCase useCase)
+            => GenericResponse(await useCase.ExecuteAsync());
     }
 }
