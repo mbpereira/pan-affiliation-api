@@ -1,9 +1,11 @@
-﻿using System.Net;
+﻿using System.Collections;
+using System.Net;
 using AutoBogus;
 using Bogus;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NSubstitute;
+using Pan.Affiliation.Domain.Caching;
 using Pan.Affiliation.Domain.Logging;
 using Pan.Affiliation.Domain.Settings;
 using Pan.Affiliation.Infrastructure.Gateways.Ibge;
@@ -20,11 +22,13 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Gateways.Ibge
         private readonly ISettingsProvider _settingsProvider;
         private readonly ILogger<IbgeGatewayService> _logger;
         private readonly Faker _faker = new();
+        private readonly ICacheProvider _caching;
 
         public IbgeGatewayServiceTests()
         {
             _settingsProvider = GetSettingsProvider();
             _logger = Substitute.For<ILogger<IbgeGatewayService>>();
+            _caching = Substitute.For<ICacheProvider>();
         }
 
         private static ISettingsProvider GetSettingsProvider()
@@ -42,26 +46,91 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Gateways.Ibge
                 IbgeClient,
                 HttpStatusCode.BadRequest,
                 responseContent: "[]");
+            _caching.GetManyAsync<StateResponse>(Arg.Any<string>())
+                .Returns(Task.FromResult<IEnumerable<StateResponse>>(null));
 
             var act = async () => await ibgeClientService.GetCountryStatesAsync();
 
             await act.Should().ThrowAsync<HttpRequestException>();
         }
+        
+        [Fact]
+        public async Task When_GetCitiesFromStateAsync_Called_should_throws_exception_if_http_response_is_not_success()
+        {
+            var ibgeClientService = HttpClientFactoryUtils.CreateMockedHttpClientFactory(
+                GetGatewayService,
+                IbgeClient,
+                HttpStatusCode.BadRequest,
+                responseContent: "[]");
+            _caching.GetManyAsync<CityResponse>(Arg.Any<string>())
+                .Returns(Task.FromResult<IEnumerable<CityResponse>>(null));
 
+            var act = async () => await ibgeClientService.GetCitiesFromStateAsync(_faker.Random.Number());
+
+            await act.Should().ThrowAsync<HttpRequestException>();
+        }
+
+        [Fact]
+        public async Task When_GetStatesAsync_Called_should_return_data_from_cache_if_available()
+        {
+            var states = new AutoFaker<StateResponse>()
+                .Generate(3);
+            var ibgeClientService = HttpClientFactoryUtils.CreateMockedHttpClientFactory(
+                GetGatewayService,
+                IbgeClient,
+                responseContent: string.Empty);
+            _caching.GetManyAsync<StateResponse>(Arg.Any<string>())
+                .Returns(Task.FromResult<IEnumerable<StateResponse>?>(states));
+
+            var response = await ibgeClientService.GetCountryStatesAsync();
+
+            await _caching
+                .DidNotReceive()
+                .SaveManyAsync(Arg.Any<string>(), Arg.Any<IEnumerable<StateResponse>>());
+            response.Should().BeEquivalentTo(states, opt =>
+                opt.WithoutStrictOrdering()
+            );
+        }
+        
+        [Fact]
+        public async Task When_GetCitiesFromStateAsync_Called_should_return_data_from_cache_if_available()
+        {
+            var cities = new AutoFaker<CityResponse>()
+                .Generate(3);
+            var ibgeClientService = HttpClientFactoryUtils.CreateMockedHttpClientFactory(
+                GetGatewayService,
+                IbgeClient,
+                responseContent: string.Empty);
+            _caching.GetManyAsync<CityResponse>(Arg.Any<string>())
+                .Returns(Task.FromResult<IEnumerable<CityResponse>?>(cities));
+
+            var response = await ibgeClientService.GetCitiesFromStateAsync(_faker.Random.Number());
+
+            await _caching
+                .DidNotReceive()
+                .SaveManyAsync(Arg.Any<string>(), Arg.Any<IEnumerable<StateResponse>>());
+            response.Should().BeEquivalentTo(cities, opt =>
+                opt.WithoutStrictOrdering()
+            );
+        }
+        
         [Fact]
         public async Task When_GetStatesAsync_Called_should_return_states()
         {
             var states = new AutoFaker<StateResponse>()
                 .Generate(3);
-
             var ibgeClientService = HttpClientFactoryUtils.CreateMockedHttpClientFactory(
                 GetGatewayService,
                 IbgeClient,
-                HttpStatusCode.OK,
                 responseContent: JsonConvert.SerializeObject(states));
+            _caching.GetManyAsync<StateResponse>(Arg.Any<string>())
+                .Returns(Task.FromResult<IEnumerable<StateResponse>?>(null));
 
             var response = await ibgeClientService.GetCountryStatesAsync();
 
+            await _caching
+                .Received()
+                .SaveManyAsync(Arg.Any<string>(), Arg.Any<IEnumerable<StateResponse>>());
             response.Should().BeEquivalentTo(states, opt =>
                 opt.WithoutStrictOrdering()
             );
@@ -72,21 +141,24 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Gateways.Ibge
         {
             var cities = new AutoFaker<CityResponse>()
                 .Generate(3);
-
             var ibgeClientService = HttpClientFactoryUtils.CreateMockedHttpClientFactory(
                 GetGatewayService,
                 IbgeClient,
-                HttpStatusCode.OK,
                 responseContent: JsonConvert.SerializeObject(cities));
+            _caching.GetManyAsync<CityResponse>(Arg.Any<string>())
+                .Returns(Task.FromResult<IEnumerable<CityResponse>?>(null));
 
             var response = await ibgeClientService.GetCitiesFromStateAsync(_faker.Random.Number());
-
+            
+            await _caching
+                .Received()
+                .SaveManyAsync(Arg.Any<string>(), Arg.Any<IEnumerable<StateResponse>>());
             response.Should().BeEquivalentTo(cities, opt =>
                 opt.WithoutStrictOrdering()
             );
         }
-        
+
         private IbgeGatewayService GetGatewayService(IHttpClientFactory factory)
-            => new(factory, _settingsProvider, _logger);
+            => new(factory, _settingsProvider, _logger, _caching);
     }
 }

@@ -28,7 +28,7 @@ public class RedisCacheProvider : ICacheProvider
             expiry: expiresAfter);
     }
 
-    public Task<long> SaveManyAsync<T>(string key, IEnumerable<T> data, TimeSpan expiresAfter)
+    public Task<long> SaveManyAsync<T>(string key, IEnumerable<T> data)
         => _database.SetAddAsync(
             new RedisKey(key),
             data.Select(d => new RedisValue(JsonConvert.SerializeObject(d))).ToArray()
@@ -52,7 +52,7 @@ public class RedisCacheProvider : ICacheProvider
         var content = await _database.SetMembersAsync(new RedisKey(key));
 
         if (content is null || !content.Any())
-            return default;
+            return null;
 
         return content.Select(c => JsonConvert.DeserializeObject<T>(content!.ToString()!))!;
     }
