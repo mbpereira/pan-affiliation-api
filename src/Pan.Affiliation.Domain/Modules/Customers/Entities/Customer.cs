@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FluentValidation;
 using Pan.Affiliation.Domain.Modules.Customers.ValueObjects;
 using Pan.Affiliation.Domain.Shared;
@@ -13,17 +14,21 @@ public class Customer : BaseEntity
     public IEnumerable<Address> Addresses => _addresses;
 
     public string? Name { get; private set; }
-    public DocumentNumber DocumentNumber { get; }
+
+    [JsonIgnore]
+    public DocumentNumber DocumentNumberVo { get; }
+
+    public string DocumentNumber => DocumentNumberVo.ToString();      
 
     public Customer(
         Guid? id,
         string? name,
-        DocumentNumber documentNumber,
+        DocumentNumber documentNumberVo,
         IList<Address>? addresses = null)
     {
         Id = id ?? Guid.NewGuid();
         Name = name;
-        DocumentNumber = documentNumber;
+        DocumentNumberVo = documentNumberVo;
         _addresses = addresses ?? new List<Address>();
         _validator = Validator<Customer>.Create();
     }

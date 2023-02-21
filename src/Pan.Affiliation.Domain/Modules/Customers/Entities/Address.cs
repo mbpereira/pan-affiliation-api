@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FluentValidation;
 using Pan.Affiliation.Domain.Shared;
 using Pan.Affiliation.Domain.Shared.Validation;
@@ -9,7 +10,10 @@ public class Address : BaseEntity
 {
     private readonly Validator<Address> _validator;
     
-    public PostalCode? PostalCode { get; set; }
+    [JsonIgnore]
+    public PostalCode? PostalCodeVo { get; set; }
+
+    public string? PostalCode => PostalCodeVo?.ToString();
 
     public string? Street { get; set; }
 
@@ -32,7 +36,7 @@ public class Address : BaseEntity
     
     public override ValidationResult Validate()
     {
-        _validator.RuleFor(a => a.PostalCode)
+        _validator.RuleFor(a => a.PostalCodeVo)
             .Must(code => code?.IsValid() is true);
         
         _validator.RuleFor(a => a.Street)

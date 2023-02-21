@@ -57,7 +57,7 @@ public class CustomerRepositoryTests
         var foundCustomer = await repository.GetCustomerByDocumentNumberAsync(document);
         var foundAddress = foundCustomer!.Addresses.FirstOrDefault();
 
-        foundCustomer.DocumentNumber.Value.Should().Be(customer!.DocumentNumber);
+        foundCustomer.DocumentNumberVo.Value.Should().Be(customer!.DocumentNumber);
         foundAddress.Should().NotBeNull();
         foundCustomer.Should().NotBeNull();
         foundCustomer.Should().BeEquivalentTo(

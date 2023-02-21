@@ -53,6 +53,9 @@ public record DocumentNumber : ValueObject
     public override bool IsValid()
         => _isValid;
 
+    public override string ToString()
+        => Value;
+
     public static implicit operator DocumentNumber(string? documentNumber) =>
         new(documentNumber);
 }

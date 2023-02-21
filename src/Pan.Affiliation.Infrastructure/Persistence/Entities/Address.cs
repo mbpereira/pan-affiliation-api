@@ -36,7 +36,7 @@ namespace Pan.Affiliation.Infrastructure.Persistence.Entities
         internal Domain.Modules.Customers.Entities.Address ToDomainEntity() => new()
         {
             Id = Id,
-            PostalCode = PostalCode!,
+            PostalCodeVo = PostalCode!,
             City = City,
             Complement = Complement,
             Country = Country,
