@@ -11,12 +11,10 @@ public class RedisCacheProvider : ICacheProvider
         public const string SettingsKey = "RedisSettings";
     }
 
-    private readonly IConnectionMultiplexer _multiplexer;
     private readonly IDatabase _database;
 
     public RedisCacheProvider(IConnectionMultiplexer multiplexer)
     {
-        _multiplexer = multiplexer;
         _database = multiplexer.GetDatabase();
     }
 
@@ -34,7 +32,7 @@ public class RedisCacheProvider : ICacheProvider
             data.Select(d => new RedisValue(JsonConvert.SerializeObject(d))).ToArray()
         );
 
-    public Task<bool> RemoveAsync<T>(string key)
+    public Task<bool> RemoveAsync(string key)
         => _database.KeyDeleteAsync(new RedisKey(key));
 
     public async Task<T?> GetAsync<T>(string key)
