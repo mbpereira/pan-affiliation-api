@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Pan.Affiliation.Api.Contracts;
-using Pan.Affiliation.Application.UseCases.GetCountryStates;
 using Pan.Affiliation.Domain.Modules.Localization.Entities;
+using Pan.Affiliation.Domain.Modules.Localization.UseCases;
 using Pan.Affiliation.Domain.Shared;
 using Pan.Affiliation.Domain.Shared.Validation;
 

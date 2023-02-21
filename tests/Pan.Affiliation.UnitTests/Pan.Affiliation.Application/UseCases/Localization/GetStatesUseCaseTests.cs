@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
 using NSubstitute;
-using Pan.Affiliation.Application.UseCases.GetCountryStates;
+using Pan.Affiliation.Application.UseCases.Localization;
 using Pan.Affiliation.Domain.Modules.Localization.Entities;
 using Pan.Affiliation.Domain.Modules.Localization.Gateways;
 using Pan.Affiliation.Domain.Shared.Logging;
 
-namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Application.UseCases
+namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Application.UseCases.Localization
 {
     public class GetStatesUseCaseTests
     {
