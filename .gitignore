@@ -366,3 +366,4 @@ appsettings.Development.json
 results/
 .idea/
 tmp/
+/src/Pan.Affiliation.Api/log
