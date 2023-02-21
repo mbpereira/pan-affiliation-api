@@ -29,6 +29,10 @@ var app = builder.Build();
     var scope = app.Services.CreateScope();
     var applicationUpdater = scope.ServiceProvider.GetRequiredService<IApplicationUpdater>();
     await  applicationUpdater.UpdateAsync();
+
+    if (args.Contains("--seed"))
+        await applicationUpdater.SeedAsync();
+        
 }
 
 app.UseSerilogRequestLogging();
