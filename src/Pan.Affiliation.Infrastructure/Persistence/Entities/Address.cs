@@ -28,9 +28,22 @@ namespace Pan.Affiliation.Infrastructure.Persistence.Entities
         [MaxLength(150), Required]
         public string? Neighborhood { get; set; }
 
-        public CustomerInformation? Customer { get; set; }
+        public Customer? Customer { get; set; }
 
         [Required]
         public Guid CustomerId { get; set; }
+
+        internal Domain.Modules.Customers.Entities.Address ToDomainEntity() => new()
+        {
+            Id = Id,
+            PostalCodeVo = PostalCode!,
+            City = City,
+            Complement = Complement,
+            Country = Country,
+            Neighborhood = Neighborhood,
+            Number = Number,
+            State = State,
+            Street = Street
+        };
     }
 }

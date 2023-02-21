@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoBogus" Version="2.13.1" />
     <PackageReference Include="Autofac" Version="6.5.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
@@ -35,13 +36,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="AutoBogus">
+      <HintPath>..\..\..\..\..\.nuget\packages\autobogus\2.13.1\lib\netstandard2.0\AutoBogus.dll</HintPath>
+    </Reference>
+    <Reference Include="Bogus">
+      <HintPath>..\..\..\..\..\.nuget\packages\bogus\34.0.2\lib\net6.0\Bogus.dll</HintPath>
+    </Reference>
     <Reference Include="Serilog.Extensions.Logging">
       <HintPath>..\..\..\..\..\.nuget\packages\serilog.extensions.logging\3.1.0\lib\netstandard2.0\Serilog.Extensions.Logging.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Persistence\Migrator" />
   </ItemGroup>
 
 </Project>

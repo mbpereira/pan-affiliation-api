@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Pan.Affiliation.Domain.Logging;
+using Pan.Affiliation.Domain.Shared.Logging;
 
 namespace Pan.Affiliation.Infrastructure.Gateways
 {

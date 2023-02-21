@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Pan.Affiliation.Domain.Settings;
+using Pan.Affiliation.Domain.Shared.Settings;
 using Pan.Affiliation.Infrastructure.Caching;
 using Pan.Affiliation.Infrastructure.Persistence;
 using Pan.Affiliation.Infrastructure.Settings;
@@ -45,7 +45,7 @@ namespace Pan.Affiliation.Infrastructure
             RegisterRedis(builder);
 
             builder.RegisterGeneric(typeof(Logging.Logger<>))
-                .As(typeof(Domain.Logging.ILogger<>))
+                .As(typeof(Domain.Shared.Logging.ILogger<>))
                 .InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(typeof(InfrastructureModule).Assembly)
@@ -109,7 +109,8 @@ namespace Pan.Affiliation.Infrastructure
                 settings.Host,
                 settings.Username,
                 settings.Password,
-                settings.Database);
+                settings.Database,
+                settings.Port);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Pan.Affiliation.Domain.Settings;
+using Pan.Affiliation.Domain.Shared.Settings;
 using Pan.Affiliation.Infrastructure.Settings;
 
 namespace Pan.Affiliation.UnitTests.Utils

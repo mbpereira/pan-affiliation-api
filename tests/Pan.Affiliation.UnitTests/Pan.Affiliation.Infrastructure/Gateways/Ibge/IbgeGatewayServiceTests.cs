@@ -4,9 +4,9 @@ using Bogus;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NSubstitute;
-using Pan.Affiliation.Domain.Caching;
-using Pan.Affiliation.Domain.Logging;
-using Pan.Affiliation.Domain.Settings;
+using Pan.Affiliation.Domain.Shared.Caching;
+using Pan.Affiliation.Domain.Shared.Logging;
+using Pan.Affiliation.Domain.Shared.Settings;
 using Pan.Affiliation.Infrastructure.Gateways.Ibge;
 using Pan.Affiliation.Infrastructure.Gateways.Ibge.Contracts;
 using Pan.Affiliation.UnitTests.Utils;
@@ -16,14 +16,14 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Gateways.Ibge
 public class IbgeGatewayServiceTests
 {
     private readonly ISettingsProvider _settingsProvider;
-    private readonly ILogger<IbgeGatewayService> _logger;
+    private readonly ILogger<IbgeGatewayGatewayFromStateStatesQuery> _logger;
     private readonly Faker _faker = new();
     private readonly ICacheProvider _caching;
 
     public IbgeGatewayServiceTests()
     {
         _settingsProvider = GetSettingsProvider();
-        _logger = Substitute.For<ILogger<IbgeGatewayService>>();
+        _logger = Substitute.For<ILogger<IbgeGatewayGatewayFromStateStatesQuery>>();
         _caching = Substitute.For<ICacheProvider>();
     }
 
@@ -156,6 +156,6 @@ public class IbgeGatewayServiceTests
         );
     }
 
-    private IbgeGatewayService GetGatewayService(IHttpClientFactory factory)
+    private IbgeGatewayGatewayFromStateStatesQuery GetGatewayService(IHttpClientFactory factory)
         => new(factory, _settingsProvider, _logger, _caching);
 }

@@ -6,7 +6,7 @@ namespace Pan.Affiliation.Infrastructure.Persistence;
 public static class Constants
 {
     public const string PanAffiliationDbSettingsKey = "PanAffiliationDbSettings";
-    public const string PgConnectionString = "Host={0};Username={1};Password={2};Database={3}";
+    public const string PgConnectionString = "Host={0};Username={1};Password={2};Database={3};Port={4}";
 }
     
 public class PanAffiliationDbContext : DbContext
@@ -28,6 +28,6 @@ public class PanAffiliationDbContext : DbContext
         }
     }
 
-    public DbSet<CustomerInformation>? Customers { get; set; }
+    public DbSet<Customer>? Customers { get; set; }
     public DbSet<Address>? Addresses { get; set; }
 }
