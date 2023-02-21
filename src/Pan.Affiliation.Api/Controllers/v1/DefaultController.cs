@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Pan.Affiliation.Api.Contracts;
 using Pan.Affiliation.Domain.Shared;
 
@@ -16,7 +15,7 @@ namespace Pan.Affiliation.Api.Controllers.v1
             _context = context;
         }
 
-        protected ActionResult<GenericResponse<T>> GenericResponse<T>(T? data = null) where T : class
+        protected ActionResult<GenericResponse<T?>> GenericResponse<T>(T? data = null) where T : class
             => new GenericResponseFactory<T>(data, _context).Create();
     }
 }

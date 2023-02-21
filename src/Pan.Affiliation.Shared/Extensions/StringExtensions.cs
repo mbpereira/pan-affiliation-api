@@ -4,7 +4,7 @@ namespace Pan.Affiliation.Shared.Extensions;
 
 public static class StringExtensions
 {
-    public static string OnlyNumbers(this string str)
+    public static string? OnlyNumbers(this string str)
     {
         if (string.IsNullOrEmpty(str))
             return null;

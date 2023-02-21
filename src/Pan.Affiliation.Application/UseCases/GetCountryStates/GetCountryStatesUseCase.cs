@@ -19,13 +19,14 @@ namespace Pan.Affiliation.Application.UseCases.GetCountryStates
         {
             _logger.LogInformation("Getting country states");
             
-            var states = await _countryStatesService.GetCountryStatesAsync();
+            var statesResponse = await _countryStatesService.GetCountryStatesAsync();
 
-            if (states is null)
+            if (statesResponse is null)
                 return Enumerable.Empty<State>();
 
             var priorityStates = new[] { "RJ", "SP" };
 
+            var states = statesResponse.ToList();
             var dict = states.ToDictionary(s => s.Acronym!, StringComparer.InvariantCultureIgnoreCase);
 
             var response = states

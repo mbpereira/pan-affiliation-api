@@ -7,18 +7,18 @@ namespace Pan.Affiliation.Domain.ValueObjects
     public struct PostalCode
 
     {
-        public string OriginalValue { get; }
-        public string Value { get; }
+        public string? OriginalValue { get; }
+        public string? Value { get; }
         public bool IsValid { get; }
 
-        public PostalCode(string cep)
+        public PostalCode(string? cep)
         {
             OriginalValue = cep;
             Value = cep?.OnlyNumbers();
             IsValid = Validate(cep);
         }
 
-        private static bool Validate(string cep)
+        private static bool Validate(string? cep)
             => !string.IsNullOrEmpty(cep) && Regex.IsMatch(cep, ValidCep);
 
         public static implicit operator PostalCode(string cep)

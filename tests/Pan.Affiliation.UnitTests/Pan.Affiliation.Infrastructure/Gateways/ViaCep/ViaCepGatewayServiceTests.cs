@@ -7,12 +7,9 @@ using NSubstitute;
 using Pan.Affiliation.Domain.Caching;
 using Pan.Affiliation.Domain.Logging;
 using Pan.Affiliation.Domain.Settings;
-using Pan.Affiliation.Infrastructure.Gateways.Ibge;
 using Pan.Affiliation.Infrastructure.Gateways.ViaCep;
 using Pan.Affiliation.Infrastructure.Gateways.ViaCep.Contracts;
 using Pan.Affiliation.UnitTests.Utils;
-using static Pan.Affiliation.Shared.Constants.HttpClientConfiguration;
-using static Pan.Affiliation.Shared.Constants.Configuration;
 
 namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Gateways.ViaCep;
 
@@ -36,7 +33,7 @@ public class ViaCepGatewayServiceTests
     {
         var viaCepGatewayService = HttpClientFactoryUtils.CreateMockedHttpClientFactory(
             GetGatewayService,
-            ViaCepClient,
+            Constants.ViaCepHttpClient,
             HttpStatusCode.BadRequest,
             responseContent: "[]");
         var fakeCep = _faker.Random.String(minChar: '0', maxChar: '9', length: 8);
@@ -55,7 +52,7 @@ public class ViaCepGatewayServiceTests
             .Generate();
         var viaCepGatewayService = HttpClientFactoryUtils.CreateMockedHttpClientFactory(
             GetGatewayService,
-            ViaCepClient,
+            Constants.ViaCepHttpClient,
             responseContent: JsonConvert.SerializeObject(information));
         var fakeCep = _faker.Random.String(minChar: '0', maxChar: '9', length: 8);
         _caching.GetAsync<PostalCodeInformationResponse>(Arg.Any<string>())
@@ -66,15 +63,16 @@ public class ViaCepGatewayServiceTests
         await _caching.Received().GetAsync<PostalCodeInformationResponse>(Arg.Any<string>());
         response.Should().BeEquivalentTo(information);
     }
-    
+
     [Fact]
-    public async Task When_GetPostalCodeInformationAsync_Called_without_errors_should_return_information_from_cache_if_available()
+    public async Task
+        When_GetPostalCodeInformationAsync_Called_without_errors_should_return_information_from_cache_if_available()
     {
         var information = new AutoFaker<PostalCodeInformationResponse>()
             .Generate();
         var viaCepGatewayService = HttpClientFactoryUtils.CreateMockedHttpClientFactory(
             GetGatewayService,
-            ViaCepClient,
+            Constants.ViaCepHttpClient,
             responseContent: "");
         var fakeCep = _faker.Random.String(minChar: '0', maxChar: '9', length: 8);
         _caching.GetAsync<PostalCodeInformationResponse>(Arg.Any<string>())
@@ -85,7 +83,7 @@ public class ViaCepGatewayServiceTests
         await _caching
             .DidNotReceive()
             .SaveAsync<PostalCodeInformationResponse>(
-                Arg.Any<string>(), 
+                Arg.Any<string>(),
                 Arg.Any<PostalCodeInformationResponse>(),
                 Arg.Any<TimeSpan>());
         response.Should().BeEquivalentTo(information);
@@ -96,14 +94,14 @@ public class ViaCepGatewayServiceTests
     {
         var viaCepGatewayService = HttpClientFactoryUtils.CreateMockedHttpClientFactory(
             GetGatewayService,
-            ViaCepClient,
+            Constants.ViaCepHttpClient,
             responseContent: "");
         var fakeCep = _faker.Random.String(minChar: '0', maxChar: '9', length: 8);
         _caching.GetAsync<PostalCodeInformationResponse>(Arg.Any<string>())
             .Returns(Task.FromResult<PostalCodeInformationResponse?>(null));
-        
+
         var response = await viaCepGatewayService.GetPostalCodeInformationAsync(fakeCep);
-        
+
         await _caching.Received().GetAsync<PostalCodeInformationResponse>(Arg.Any<string>());
         response.Should().BeNull();
     }
@@ -111,7 +109,8 @@ public class ViaCepGatewayServiceTests
     private static ISettingsProvider GetSettingsProvider()
     {
         return new SettingsProviderBuilder()
-            .WithEnvironmentVariable($"{ViaCepSettingsKey}__BaseUrl", "https://www.google.com/")
+            .WithEnvironmentVariable($"{Constants.ViaCepSettingsKey}__BaseUrl",
+                "https://www.google.com/")
             .Build();
     }
 

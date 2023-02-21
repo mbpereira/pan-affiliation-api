@@ -2,12 +2,8 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Pan.Affiliation.Application;
 using Pan.Affiliation.Domain;
-using Pan.Affiliation.Domain.Settings;
 using Pan.Affiliation.Infrastructure;
-using Pan.Affiliation.Infrastructure.Persistence;
-using Pan.Affiliation.Infrastructure.Settings.Sections;
 using Serilog;
-using static Pan.Affiliation.Shared.Constants.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
@@ -27,26 +23,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
-{
-    using var scope = app.Services.CreateScope();
-
-    var settingsProvider = scope
-        .ServiceProvider
-        .GetRequiredService<ISettingsProvider>();
-
-    var dbSettings = settingsProvider
-        .GetSection<DbSettings>(PanAffiliationDbSettingsKey);
-
-    if (dbSettings!.ApplyMigrationsOnStartup)
-    {
-        var dbContext = scope
-            .ServiceProvider
-            .GetRequiredService<PanAffiliationDbContext>();
-
-        await dbContext.ApplyMigrationsAsync();
-    }
-}
 
 app.UseSerilogRequestLogging();
 // Configure the HTTP request pipeline.

@@ -9,13 +9,9 @@ using Pan.Affiliation.Infrastructure.Caching;
 using Pan.Affiliation.Infrastructure.Persistence;
 using Pan.Affiliation.Infrastructure.Settings;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
-using Pan.Affiliation.Shared.Constants;
-using Redbox.Serilog.Stackdriver;
 using Serilog;
 using Serilog.Enrichers.Span;
-using Serilog.Formatting.Compact;
 using StackExchange.Redis;
-using static Pan.Affiliation.Shared.Constants.Configuration;
 
 namespace Pan.Affiliation.Infrastructure
 {
@@ -32,12 +28,12 @@ namespace Pan.Affiliation.Infrastructure
 
         protected override void Load(ContainerBuilder builder)
         {
-            _services.AddDbContext<PanAffiliationDbContext>(builder =>
-                builder.UseNpgsql(GetConnectionString(),
+            _services.AddDbContext<PanAffiliationDbContext>(contextBuilder =>
+                contextBuilder.UseNpgsql(GetConnectionString(),
                     b => b.MigrationsAssembly(GetMigrationsAssembly())));
 
-            AddHttpClient(HttpClientConfiguration.IbgeClient);
-            AddHttpClient(HttpClientConfiguration.ViaCepClient);
+            AddHttpClient(Gateways.Ibge.Constants.IbgeHttpClient);
+            AddHttpClient(Gateways.ViaCep.Constants.ViaCepHttpClient);
             AddSerilog();
 
             builder.Populate(_services);
@@ -63,7 +59,7 @@ namespace Pan.Affiliation.Infrastructure
             builder.Register(_ =>
                     ConnectionMultiplexer.Connect(new ConfigurationOptions()
                     {
-                        EndPoints = { { settings.Host, settings.Port } },
+                        EndPoints = { { settings.Host!, settings.Port } },
                         DefaultDatabase = settings.DefaultDatabase
                     }))
                 .As<IConnectionMultiplexer>()
@@ -74,7 +70,7 @@ namespace Pan.Affiliation.Infrastructure
         {
             _services.AddLogging(loggingBuilder =>
             {
-                var settings = _settingsProvider.GetSection<LogSettings>(LoggingSettingsKey);
+                var settings = _settingsProvider.GetSection<LogSettings>(Logging.Constants.LoggingSettingsKey);
 
                 var logger = new LoggerConfiguration()
                     .Enrich.FromLogContext()
@@ -107,13 +103,13 @@ namespace Pan.Affiliation.Infrastructure
 
         private string GetConnectionString()
         {
-            var settings = _settingsProvider.GetSection<DbSettings>(PanAffiliationDbSettingsKey);
+            var settings = _settingsProvider.GetSection<DbSettings>(Constants.PanAffiliationDbSettingsKey);
 
-            return string.Format(PgConnectionString,
-                settings!.Host,
-                settings!.Username,
-                settings!.Password,
-                settings!.Database);
+            return string.Format(Constants.PgConnectionString,
+                settings.Host,
+                settings.Username,
+                settings.Password,
+                settings.Database);
         }
     }
 }
