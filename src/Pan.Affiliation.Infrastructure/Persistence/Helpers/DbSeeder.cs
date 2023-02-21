@@ -22,12 +22,11 @@ public class DbSeeder : IDbSeeder
             .RuleFor(c => c.DocumentNumber, _
                 => _faker.Person.Cpf(includeFormatSymbols: false))
             .RuleFor(c => c.Addresses, _ =>
-                new AutoFaker<Address>().RuleFor(a => a.PostalCode,
-                        _ =>
-                            _faker.Random.String(minChar: '0', maxChar: '9', length: 8))
+                new AutoFaker<Address>().RuleFor(a => a.PostalCode, _
+                        => _faker.Random.String(minChar: '0', maxChar: '9', length: 8))
                     .Generate(1))
             .Generate(5);
-        
+
         await _context.Customers!.AddRangeAsync(customers);
         await _context.SaveChangesAsync();
     }
