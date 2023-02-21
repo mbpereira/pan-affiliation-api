@@ -1,4 +1,4 @@
-namespace Pan.Affiliation.Domain.Logging;
+namespace Pan.Affiliation.Domain.Shared.Logging;
 
 public interface ILogger
 {

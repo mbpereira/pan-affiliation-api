@@ -1,25 +1,25 @@
-using Pan.Affiliation.Domain.Localization.Adapters;
-using Pan.Affiliation.Domain.Localization.Entities;
-using Pan.Affiliation.Domain.Logging;
-using Pan.Affiliation.Domain.ValueObjects;
+using Pan.Affiliation.Domain.Modules.Localization.Entities;
+using Pan.Affiliation.Domain.Modules.Localization.Gateways;
+using Pan.Affiliation.Domain.Shared.Logging;
+using Pan.Affiliation.Domain.Shared.ValueObjects;
 
 namespace Pan.Affiliation.Application.UseCases.GetPostalCodeInformation;
 
 public class GetPostalCodeInformationUseCase : IGetPostalCodeInformationUseCase
 {
-    private readonly IPostalCodeInformationService _service;
+    private readonly IPostalCodeInformationGatewayService _gatewayService;
     private readonly ILogger<GetPostalCodeInformationUseCase> _logger;
 
-    public GetPostalCodeInformationUseCase(IPostalCodeInformationService service,
+    public GetPostalCodeInformationUseCase(IPostalCodeInformationGatewayService gatewayService,
         ILogger<GetPostalCodeInformationUseCase> logger)
     {
-        _service = service;
+        _gatewayService = gatewayService;
         _logger = logger;
     }
 
     public Task<PostalCodeInformation?> ExecuteAsync(PostalCode param)
     {
         _logger.LogInformation("Getting postalCode information {postalCode}", param);
-        return _service.GetPostalCodeInformationAsync(param);
+        return _gatewayService.GetPostalCodeInformationAsync(param);
     }
 }

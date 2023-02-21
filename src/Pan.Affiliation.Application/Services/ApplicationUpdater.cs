@@ -1,4 +1,4 @@
-using Pan.Affiliation.Domain.Logging;
+using Pan.Affiliation.Domain.Shared.Logging;
 using Pan.Affiliation.Infrastructure.Persistence;
 
 namespace Pan.Affiliation.Application.Services;

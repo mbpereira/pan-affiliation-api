@@ -1,24 +1,24 @@
-﻿using Pan.Affiliation.Domain.Localization.Adapters;
-using Pan.Affiliation.Domain.Localization.Entities;
-using Pan.Affiliation.Domain.Logging;
+﻿using Pan.Affiliation.Domain.Modules.Localization.Entities;
+using Pan.Affiliation.Domain.Modules.Localization.Gateways;
+using Pan.Affiliation.Domain.Shared.Logging;
 
 namespace Pan.Affiliation.Application.UseCases.GetCitiesFromState
 {
     public class GetCitiesFromStateUseCase : IGetCitiesFromStateUseCase
     {
-        private readonly ICityService _cityService;
+        private readonly ICityGatewayService _cityGatewayService;
         private readonly ILogger<GetCitiesFromStateUseCase> _logger;
 
-        public GetCitiesFromStateUseCase(ICityService cityService, ILogger<GetCitiesFromStateUseCase> logger)
+        public GetCitiesFromStateUseCase(ICityGatewayService cityGatewayService, ILogger<GetCitiesFromStateUseCase> logger)
         {
-            _cityService = cityService;
+            _cityGatewayService = cityGatewayService;
             _logger = logger;
         }
 
         public Task<IEnumerable<City>?> ExecuteAsync(int param)
         {
             _logger.LogInformation("Getting cities from state identified by {stateId}", param);
-            return _cityService.GetCitiesFromStateAsync(stateId: param);
+            return _cityGatewayService.GetCitiesFromStateAsync(stateId: param);
         }
     }
 }

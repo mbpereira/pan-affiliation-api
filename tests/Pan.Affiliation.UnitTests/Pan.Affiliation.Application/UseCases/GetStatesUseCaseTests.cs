@@ -1,20 +1,20 @@
 ﻿using FluentAssertions;
 using NSubstitute;
 using Pan.Affiliation.Application.UseCases.GetCountryStates;
-using Pan.Affiliation.Domain.Localization.Adapters;
-using Pan.Affiliation.Domain.Localization.Entities;
-using Pan.Affiliation.Domain.Logging;
+using Pan.Affiliation.Domain.Modules.Localization.Entities;
+using Pan.Affiliation.Domain.Modules.Localization.Gateways;
+using Pan.Affiliation.Domain.Shared.Logging;
 
 namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Application.UseCases
 {
     public class GetStatesUseCaseTests
     {
-        private readonly ICountryStatesService _countryStatesService;
+        private readonly ICountryStatesGatewayService _countryStatesGatewayService;
         private readonly ILogger<GetCountryStatesUseCase> _logger;
 
         public GetStatesUseCaseTests()
         {
-            _countryStatesService = Substitute.For<ICountryStatesService>();
+            _countryStatesGatewayService = Substitute.For<ICountryStatesGatewayService>();
             _logger = Substitute.For<ILogger<GetCountryStatesUseCase>>();
         }
 
@@ -30,7 +30,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Application.UseCases
                 new() { Name = "Rio de Janeiro", Acronym = "RJ" },
                 new() { Name = "São Paulo", Acronym = "SP" }
             };
-            _countryStatesService.GetCountryStatesAsync()
+            _countryStatesGatewayService.GetCountryStatesAsync()
                 .Returns(states);
             var useCase = GetCountryStatesUseCase();
 
@@ -52,7 +52,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Application.UseCases
         public async Task When_ExecuteAsync_is_called_should_return_empty_if_response_from_service_is_null()
         {
             // arrange
-            _countryStatesService.GetCountryStatesAsync()
+            _countryStatesGatewayService.GetCountryStatesAsync()
                 .Returns(Task.FromResult<IEnumerable<State>?>(null));
             var useCase = GetCountryStatesUseCase();
 
@@ -64,6 +64,6 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Application.UseCases
         }
 
         private GetCountryStatesUseCase GetCountryStatesUseCase()
-            => new(_countryStatesService, _logger);
+            => new(_countryStatesGatewayService, _logger);
     }
 }

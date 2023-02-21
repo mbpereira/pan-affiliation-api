@@ -1,9 +1,9 @@
-using Pan.Affiliation.Domain.Caching;
-using Pan.Affiliation.Domain.Localization.Adapters;
-using Pan.Affiliation.Domain.Localization.Entities;
-using Pan.Affiliation.Domain.Logging;
-using Pan.Affiliation.Domain.Settings;
-using Pan.Affiliation.Domain.ValueObjects;
+using Pan.Affiliation.Domain.Modules.Localization.Entities;
+using Pan.Affiliation.Domain.Modules.Localization.Gateways;
+using Pan.Affiliation.Domain.Shared.Caching;
+using Pan.Affiliation.Domain.Shared.Logging;
+using Pan.Affiliation.Domain.Shared.Settings;
+using Pan.Affiliation.Domain.Shared.ValueObjects;
 using Pan.Affiliation.Infrastructure.Gateways.ViaCep.Contracts;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
 
@@ -21,14 +21,14 @@ internal static class Resources
     public const string GetPostalCodeInformationPath = "ws/{0}/json";
 }
 
-public class ViaCepGatewayService : HttpService, IPostalCodeInformationService
+public class ViaCepGatewayGatewayService : HttpService, IPostalCodeInformationGatewayService
 {
     private readonly HttpClient _http;
     private readonly ICacheProvider _caching;
 
-    public ViaCepGatewayService(IHttpClientFactory factory,
+    public ViaCepGatewayGatewayService(IHttpClientFactory factory,
         ISettingsProvider settingsProvider,
-        ILogger<ViaCepGatewayService> logger, ICacheProvider cacheProvider) : base(logger)
+        ILogger<ViaCepGatewayGatewayService> logger, ICacheProvider cacheProvider) : base(logger)
     {
         var settings = settingsProvider.GetSection<HttpServiceSettings>(Constants.ViaCepSettingsKey);
         _http = factory.CreateClient(Constants.ViaCepHttpClient);

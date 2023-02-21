@@ -4,9 +4,9 @@ using Bogus;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NSubstitute;
-using Pan.Affiliation.Domain.Caching;
-using Pan.Affiliation.Domain.Logging;
-using Pan.Affiliation.Domain.Settings;
+using Pan.Affiliation.Domain.Shared.Caching;
+using Pan.Affiliation.Domain.Shared.Logging;
+using Pan.Affiliation.Domain.Shared.Settings;
 using Pan.Affiliation.Infrastructure.Gateways.ViaCep;
 using Pan.Affiliation.Infrastructure.Gateways.ViaCep.Contracts;
 using Pan.Affiliation.UnitTests.Utils;
@@ -16,14 +16,14 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Gateways.ViaC
 public class ViaCepGatewayServiceTests
 {
     private readonly ISettingsProvider _settingsProvider;
-    private readonly ILogger<ViaCepGatewayService> _logger;
+    private readonly ILogger<ViaCepGatewayGatewayService> _logger;
     private readonly ICacheProvider _caching;
     private readonly Faker _faker = new();
 
     public ViaCepGatewayServiceTests()
     {
         _settingsProvider = GetSettingsProvider();
-        _logger = Substitute.For<ILogger<ViaCepGatewayService>>();
+        _logger = Substitute.For<ILogger<ViaCepGatewayGatewayService>>();
         _caching = Substitute.For<ICacheProvider>();
     }
 
@@ -114,6 +114,6 @@ public class ViaCepGatewayServiceTests
             .Build();
     }
 
-    private ViaCepGatewayService GetGatewayService(IHttpClientFactory factory)
+    private ViaCepGatewayGatewayService GetGatewayService(IHttpClientFactory factory)
         => new(factory, _settingsProvider, _logger, _caching);
 }

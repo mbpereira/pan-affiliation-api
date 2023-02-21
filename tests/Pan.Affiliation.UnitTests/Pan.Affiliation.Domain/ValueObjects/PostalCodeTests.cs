@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Pan.Affiliation.Domain.ValueObjects;
+using Pan.Affiliation.Domain.Shared.ValueObjects;
 
 namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Domain.ValueObjects
 {

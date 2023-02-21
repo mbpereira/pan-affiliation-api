@@ -1,8 +1,8 @@
-﻿using Pan.Affiliation.Domain.Caching;
-using Pan.Affiliation.Domain.Localization.Adapters;
-using Pan.Affiliation.Domain.Localization.Entities;
-using Pan.Affiliation.Domain.Logging;
-using Pan.Affiliation.Domain.Settings;
+﻿using Pan.Affiliation.Domain.Modules.Localization.Entities;
+using Pan.Affiliation.Domain.Modules.Localization.Gateways;
+using Pan.Affiliation.Domain.Shared.Caching;
+using Pan.Affiliation.Domain.Shared.Logging;
+using Pan.Affiliation.Domain.Shared.Settings;
 using Pan.Affiliation.Infrastructure.Gateways.Ibge.Contracts;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
 
@@ -22,15 +22,15 @@ internal static class Resources
     public const string GetCitiesFromStatePath = "estados/{0}/municipios";
 }
 
-public class IbgeGatewayService : HttpService, ICityService, ICountryStatesService
+public class IbgeGatewayGatewayGatewayService : HttpService, ICityGatewayService, ICountryStatesGatewayService
 {
     private readonly HttpClient _http;
     private readonly ICacheProvider _caching;
 
-    public IbgeGatewayService(
+    public IbgeGatewayGatewayGatewayService(
         IHttpClientFactory factory,
         ISettingsProvider settingsProvider,
-        ILogger<IbgeGatewayService> logger,
+        ILogger<IbgeGatewayGatewayGatewayService> logger,
         ICacheProvider caching) : base(logger)
     {
         _caching = caching;

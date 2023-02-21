@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Pan.Affiliation.Domain.Settings;
+using Pan.Affiliation.Domain.Shared.Settings;
 
 namespace Pan.Affiliation.Infrastructure.Settings
 {

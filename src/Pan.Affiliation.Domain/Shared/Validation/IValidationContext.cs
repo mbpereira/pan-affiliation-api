@@ -1,6 +1,6 @@
 using FluentValidation.Results;
 
-namespace Pan.Affiliation.Domain.Shared;
+namespace Pan.Affiliation.Domain.Shared.Validation;
 
 public interface IValidationContext
 {

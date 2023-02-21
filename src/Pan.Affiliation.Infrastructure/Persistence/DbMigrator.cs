@@ -1,4 +1,4 @@
-using Pan.Affiliation.Domain.Settings;
+using Pan.Affiliation.Domain.Shared.Settings;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
 
 namespace Pan.Affiliation.Infrastructure.Persistence;

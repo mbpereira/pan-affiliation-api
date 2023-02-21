@@ -2,10 +2,9 @@
 using Pan.Affiliation.Shared.Extensions;
 using static Pan.Affiliation.Shared.Constants.Regex;
 
-namespace Pan.Affiliation.Domain.ValueObjects
+namespace Pan.Affiliation.Domain.Shared.ValueObjects
 {
     public struct PostalCode
-
     {
         public string? OriginalValue { get; }
         public string? Value { get; }
@@ -24,7 +23,7 @@ namespace Pan.Affiliation.Domain.ValueObjects
         public static implicit operator PostalCode(string cep)
             => new(cep);
 
-        public override string ToString()
+        public override string? ToString()
             => Value;
     }
 }

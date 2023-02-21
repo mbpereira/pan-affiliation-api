@@ -1,4 +1,4 @@
-namespace Pan.Affiliation.Domain.Caching;
+namespace Pan.Affiliation.Domain.Shared.Caching;
 
 public interface ICacheProvider
 {

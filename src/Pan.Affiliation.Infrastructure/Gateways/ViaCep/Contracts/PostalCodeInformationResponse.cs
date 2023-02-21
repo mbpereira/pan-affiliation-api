@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using Pan.Affiliation.Domain.Localization.Entities;
+using Pan.Affiliation.Domain.Modules.Localization.Entities;
 
 namespace Pan.Affiliation.Infrastructure.Gateways.ViaCep.Contracts;
 

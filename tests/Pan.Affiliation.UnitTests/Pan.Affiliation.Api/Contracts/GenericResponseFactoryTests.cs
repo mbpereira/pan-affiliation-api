@@ -5,6 +5,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Pan.Affiliation.Api.Contracts;
 using Pan.Affiliation.Domain.Shared;
+using Pan.Affiliation.Domain.Shared.Validation;
 
 namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Api.Contracts;
 

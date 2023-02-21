@@ -7,7 +7,7 @@ public static class Constants
     public const string LoggingSettingsKey = "Logging";
 }
 
-public class Logger<T> : Domain.Logging.ILogger<T>
+public class Logger<T> : Domain.Shared.Logging.ILogger<T>
 {
     private readonly ILogger<T> _logger;
 

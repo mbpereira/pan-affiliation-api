@@ -1,4 +1,4 @@
-﻿namespace Pan.Affiliation.Domain.Localization.Entities
+﻿namespace Pan.Affiliation.Domain.Modules.Localization.Entities
 {
     public class City
     {

@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Pan.Affiliation.Api.Contracts;
 using Pan.Affiliation.Application.UseCases.GetPostalCodeInformation;
-using Pan.Affiliation.Domain.Localization.Entities;
+using Pan.Affiliation.Domain.Modules.Localization.Entities;
 using Pan.Affiliation.Domain.Shared;
+using Pan.Affiliation.Domain.Shared.Validation;
 
 namespace Pan.Affiliation.Api.Controllers.v1;
 

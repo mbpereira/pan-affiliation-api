@@ -1,4 +1,4 @@
-﻿namespace Pan.Affiliation.Application.UseCases
+﻿namespace Pan.Affiliation.Domain.Shared.UseCase
 {
     public interface IUseCase<TParam, TResponse>
     {

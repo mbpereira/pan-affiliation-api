@@ -1,4 +1,4 @@
-﻿namespace Pan.Affiliation.Domain.Settings
+﻿namespace Pan.Affiliation.Domain.Shared.Settings
 {
     public interface ISettingsProvider
     {

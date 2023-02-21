@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using Pan.Affiliation.Domain.Caching;
+using Pan.Affiliation.Domain.Shared.Caching;
 using StackExchange.Redis;
 
 namespace Pan.Affiliation.Infrastructure.Caching;
