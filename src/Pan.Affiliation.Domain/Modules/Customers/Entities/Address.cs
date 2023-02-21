@@ -33,7 +33,7 @@ public class Address : BaseEntity
     public override ValidationResult Validate()
     {
         _validator.RuleFor(a => a.PostalCode)
-            .Must(code => code.IsValid());
+            .Must(code => code?.IsValid() is true);
         
         _validator.RuleFor(a => a.Street)
             .Length(min: 3, max: 300);

@@ -16,7 +16,7 @@ public class CustomersRepository : IGetCustomerByDocumentNumberQuery
 
     public async Task<Customer?> GetCustomerByDocumentNumberAsync(DocumentNumber documentNumber)
     {
-        var customer = await _context.Customers
+        var customer = await _context.Customers!
             .Include(c => c.Addresses)
             .FirstOrDefaultAsync(c => c.DocumentNumber == documentNumber.Value);
 

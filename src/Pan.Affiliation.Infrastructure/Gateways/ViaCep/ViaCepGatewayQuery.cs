@@ -45,7 +45,7 @@ public class ViaCepGatewayQuery : HttpService, IGetPostalCodeInformationQuery
         if (cachedValue is not null)
             return cachedValue.ToEntity();
 
-        var path = string.Format(Resources.GetPostalCodeInformationPath, postalCode.ToString());
+        var path = string.Format(Resources.GetPostalCodeInformationPath, postalCode);
         var response = await _http.GetAsync(path);
 
         var postalAddressResponse = await DeserializeResponseAsync<PostalCodeInformationResponse>(response);

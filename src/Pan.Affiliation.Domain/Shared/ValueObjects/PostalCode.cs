@@ -24,7 +24,7 @@ namespace Pan.Affiliation.Domain.Shared.ValueObjects
         public static implicit operator PostalCode(string cep)
             => new(cep);
 
-        public override string? ToString()
+        public override string ToString()
             => Value;
 
         public override bool IsValid()

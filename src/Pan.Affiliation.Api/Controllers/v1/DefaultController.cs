@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Pan.Affiliation.Api.Contracts;
-using Pan.Affiliation.Domain.Shared;
 using Pan.Affiliation.Domain.Shared.Validation;
 
 namespace Pan.Affiliation.Api.Controllers.v1

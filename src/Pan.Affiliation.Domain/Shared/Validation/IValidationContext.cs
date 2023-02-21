@@ -1,4 +1,3 @@
-using FluentValidation.Results;
 
 namespace Pan.Affiliation.Domain.Shared.Validation;
 

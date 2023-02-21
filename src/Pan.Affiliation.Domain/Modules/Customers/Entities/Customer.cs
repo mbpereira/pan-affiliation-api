@@ -12,7 +12,7 @@ public class Customer : BaseEntity
     private IList<Address> _addresses;
     public IEnumerable<Address> Addresses => _addresses;
 
-    public string Name { get; private set; }
+    public string? Name { get; private set; }
     public DocumentNumber DocumentNumber { get; }
 
     public Customer(

@@ -1,7 +1,6 @@
 ﻿
 using Bogus;
 using FluentAssertions;
-using Pan.Affiliation.Infrastructure.Settings;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
 using Pan.Affiliation.UnitTests.Utils;
 
@@ -35,7 +34,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Settings
             var envName = "PanAffiliationDatabaseSettings__Username";
             var envValue = _faker.Random.Word();
             var provider = new SettingsProviderBuilder()
-                .WithEnvironmentVariable(envName, envValue.ToString())
+                .WithEnvironmentVariable(envName, envValue)
                 .Build();
 
             // Act

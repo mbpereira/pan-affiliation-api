@@ -82,7 +82,7 @@ public class ViaCepGatewayServiceTests
 
         await _caching
             .DidNotReceive()
-            .SaveAsync<PostalCodeInformationResponse>(
+            .SaveAsync(
                 Arg.Any<string>(),
                 Arg.Any<PostalCodeInformationResponse>(),
                 Arg.Any<TimeSpan>());
