@@ -61,7 +61,7 @@ namespace Pan.Affiliation.Infrastructure
         {
             var settings = _settingsProvider.GetSection<RedisSettings>(RedisCacheProvider.Constants.SettingsKey); 
             builder.Register(_ => 
-                ConnectionMultiplexer.Connect(settings.Host!))
+                ConnectionMultiplexer.Connect(settings.Host))
                 .As<IConnectionMultiplexer>()
                 .SingleInstance();
         }

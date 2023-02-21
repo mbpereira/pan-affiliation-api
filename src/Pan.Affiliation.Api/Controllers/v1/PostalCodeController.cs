@@ -8,7 +8,7 @@ namespace Pan.Affiliation.Api.Controllers.v1;
 
 public class PostalCodeController : DefaultController
 {
-    public PostalCodeController(ValidationContext context) : base(context)
+    public PostalCodeController(IValidationContext context) : base(context)
     {
     }
     

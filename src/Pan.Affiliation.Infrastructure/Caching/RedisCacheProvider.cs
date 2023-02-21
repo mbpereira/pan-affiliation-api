@@ -54,6 +54,6 @@ public class RedisCacheProvider : ICacheProvider
         if (content is null || !content.Any())
             return null;
 
-        return content.Select(c => JsonConvert.DeserializeObject<T>(content!.ToString()!))!;
+        return content.Select(c => JsonConvert.DeserializeObject<T>(c!.ToString()!))!;
     }
 }
