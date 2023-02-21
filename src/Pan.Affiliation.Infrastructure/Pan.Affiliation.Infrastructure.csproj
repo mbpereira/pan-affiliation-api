@@ -40,8 +40,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Persistence\Migrator" />
-  </ItemGroup>
-
 </Project>

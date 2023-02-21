@@ -1,6 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Pan.Affiliation.Application;
+using Pan.Affiliation.Application.Services;
 using Pan.Affiliation.Domain;
 using Pan.Affiliation.Infrastructure;
 using Serilog;
@@ -23,6 +24,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+{
+    var scope = app.Services.CreateScope();
+    var applicationUpdater = scope.ServiceProvider.GetRequiredService<IApplicationUpdater>();
+    await  applicationUpdater.UpdateAsync();
+}
 
 app.UseSerilogRequestLogging();
 // Configure the HTTP request pipeline.

@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Pan.Affiliation.Domain\Pan.Affiliation.Domain.csproj" />
+    <ProjectReference Include="..\Pan.Affiliation.Infrastructure\Pan.Affiliation.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

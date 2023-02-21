@@ -1,6 +1,6 @@
 namespace Pan.Affiliation.Infrastructure.Persistence;
 
-public interface IDatabaseMigrator
+public interface IDbMigrator
 {
     Task MigrateAsync();
 }

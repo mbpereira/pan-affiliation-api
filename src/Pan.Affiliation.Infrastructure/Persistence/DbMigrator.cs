@@ -3,12 +3,12 @@ using Pan.Affiliation.Infrastructure.Settings.Sections;
 
 namespace Pan.Affiliation.Infrastructure.Persistence;
 
-public class DatabaseMigrator : IDatabaseMigrator
+public class DbMigrator : IDbMigrator
 {
     private readonly PanAffiliationDbContext _context;
     private readonly ISettingsProvider _settingsProvider;
 
-    public DatabaseMigrator(PanAffiliationDbContext context, ISettingsProvider settingsProvider)
+    public DbMigrator(PanAffiliationDbContext context, ISettingsProvider settingsProvider)
     {
         _context = context;
         _settingsProvider = settingsProvider;
