@@ -15,7 +15,7 @@ public class GenericResponseFactory<T> where T : class
         _context = context;
     }
 
-    public ActionResult<GenericResponse<T>> Create()
+    public ActionResult<GenericResponse<T?>> Create()
     {
         if (_context is { ValidationStatus: null })
         {
@@ -46,7 +46,7 @@ public class GenericResponseFactory<T> where T : class
     private ActionResult StatusCodeResult(HttpStatusCode statusCode) =>
         new StatusCodeResult(statusCode.GetHashCode());
 
-    private ActionResult<GenericResponse<T>> CreateGenericResponse(HttpStatusCode statusCode, T? data = null)
+    private ActionResult<GenericResponse<T?>> CreateGenericResponse(HttpStatusCode statusCode, T? data = null)
     {
         if (data is null && !_context.HasErrors)
             return StatusCodeResult(statusCode);

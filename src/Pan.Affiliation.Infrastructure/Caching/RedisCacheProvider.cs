@@ -38,10 +38,10 @@ public class RedisCacheProvider : ICacheProvider
     public async Task<T?> GetAsync<T>(string key)
     {
         var content = await _database.StringGetAsync(new RedisKey(key));
-        
+
         if (string.IsNullOrEmpty(content))
             return default;
-        
+
         return JsonConvert.DeserializeObject<T?>(content!);
     }
 
@@ -49,9 +49,9 @@ public class RedisCacheProvider : ICacheProvider
     {
         var content = await _database.SetMembersAsync(new RedisKey(key));
 
-        if (content is null || !content.Any())
+        if (!content.Any())
             return null;
 
-        return content.Select(c => JsonConvert.DeserializeObject<T>(c!.ToString()!))!;
+        return content.Select(c => JsonConvert.DeserializeObject<T>(c.ToString()))!;
     }
 }

@@ -2,11 +2,16 @@ using Microsoft.Extensions.Logging;
 
 namespace Pan.Affiliation.Infrastructure.Logging;
 
+public static class Constants
+{
+    public const string LoggingSettingsKey = "Logging";
+}
+
 public class Logger<T> : Domain.Logging.ILogger<T>
 {
-    private readonly Microsoft.Extensions.Logging.ILogger<T> _logger;
-    
-    public Logger(Microsoft.Extensions.Logging.ILogger<T> logger)
+    private readonly ILogger<T> _logger;
+
+    public Logger(ILogger<T> logger)
     {
         _logger = logger;
     }
