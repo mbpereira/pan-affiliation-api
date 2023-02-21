@@ -12,7 +12,7 @@ namespace Pan.Affiliation.Infrastructure.Gateways
             _logger = logger;
         }
         
-        protected async Task<T> DeserializeResponseAsync<T>(HttpResponseMessage response)
+        protected async Task<T?> DeserializeResponseAsync<T>(HttpResponseMessage response)
         {
             _logger.LogInformation("Request finished with {HttpStatusCode} status code", response.StatusCode);
             

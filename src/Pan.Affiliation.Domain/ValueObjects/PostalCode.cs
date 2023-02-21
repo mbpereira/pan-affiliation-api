@@ -1,16 +1,20 @@
 ﻿using System.Text.RegularExpressions;
+using Pan.Affiliation.Shared.Extensions;
 using static Pan.Affiliation.Shared.Constants.Regex;
 
 namespace Pan.Affiliation.Domain.ValueObjects
 {
     public struct PostalCode
+
     {
-        public string Value { get; private set; }
-        public bool IsValid { get; private set; }
+        public string OriginalValue { get; }
+        public string Value { get; }
+        public bool IsValid { get; }
 
         public PostalCode(string cep)
         {
-            Value = cep;
+            OriginalValue = cep;
+            Value = cep?.OnlyNumbers();
             IsValid = Validate(cep);
         }
 

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Pan.Affiliation.Domain.Settings;
+using Pan.Affiliation.Infrastructure.Caching;
 using Pan.Affiliation.Infrastructure.Persistence;
 using Pan.Affiliation.Infrastructure.Settings;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
@@ -13,6 +14,7 @@ using Redbox.Serilog.Stackdriver;
 using Serilog;
 using Serilog.Enrichers.Span;
 using Serilog.Formatting.Compact;
+using StackExchange.Redis;
 using static Pan.Affiliation.Shared.Constants.Configuration;
 
 namespace Pan.Affiliation.Infrastructure
@@ -44,6 +46,8 @@ namespace Pan.Affiliation.Infrastructure
                 .RegisterInstance(_settingsProvider)
                 .SingleInstance();
 
+            RegisterRedis(builder);
+
             builder.RegisterGeneric(typeof(Logging.Logger<>))
                 .As(typeof(Domain.Logging.ILogger<>))
                 .InstancePerLifetimeScope();
@@ -51,6 +55,19 @@ namespace Pan.Affiliation.Infrastructure
             builder.RegisterAssemblyTypes(typeof(InfrastructureModule).Assembly)
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
+        }
+
+        private void RegisterRedis(ContainerBuilder builder)
+        {
+            var settings = _settingsProvider.GetSection<RedisSettings>(RedisCacheProvider.Constants.SettingsKey);
+            builder.Register(_ =>
+                    ConnectionMultiplexer.Connect(new ConfigurationOptions()
+                    {
+                        EndPoints = { { settings.Host, settings.Port } },
+                        DefaultDatabase = settings.DefaultDatabase
+                    }))
+                .As<IConnectionMultiplexer>()
+                .SingleInstance();
         }
 
         private void AddSerilog()
@@ -73,7 +90,7 @@ namespace Pan.Affiliation.Infrastructure
                         applicationName: settings.NewRelicSettings?.ApplicationName)
                     .WriteTo.File(settings.LogFile!)
                     .CreateLogger();
-                
+
                 loggingBuilder.ClearProviders();
                 loggingBuilder.AddSerilog(logger);
             });
