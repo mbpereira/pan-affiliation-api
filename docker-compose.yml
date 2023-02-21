@@ -20,12 +20,9 @@ services:
       - cache
     ports:
       - "6363:80"
-    volumes:
-      - "./volumes/pan-affiliation-api/app.log:/app/app.log"
     environment:
       ASPNETCORE_ENVIRONMENT: "Staging"
-      Logging__LogFile: "./app.log"
-      Logging__NewRelicSettings: "./app.log"
+      Logging__LogFile: "./log"
       Logging__NewRelicSettings__LicenseKey: "{YourLicenseKeyHere}"
       Logging__NewRelicSettings__ApplicationName: "PanAffiliationApi-Staging"
       PanAffiliationDbSettings__Username: "postgres"
