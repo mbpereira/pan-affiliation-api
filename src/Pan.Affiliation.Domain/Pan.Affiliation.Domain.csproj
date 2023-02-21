@@ -10,4 +10,16 @@
     <ProjectReference Include="..\Pan.Affiliation.Shared\Pan.Affiliation.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.5.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="FluentValidation" Version="11.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\..\..\..\.nuget\packages\autofac\6.5.0\lib\net6.0\Autofac.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Pan.Affiliation.Api\Pan.Affiliation.Api.csproj" />
     <ProjectReference Include="..\..\src\Pan.Affiliation.Application\Pan.Affiliation.Application.csproj" />
     <ProjectReference Include="..\..\src\Pan.Affiliation.Domain\Pan.Affiliation.Domain.csproj" />
     <ProjectReference Include="..\..\src\Pan.Affiliation.Infrastructure\Pan.Affiliation.Infrastructure.csproj" />
