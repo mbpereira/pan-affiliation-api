@@ -152,7 +152,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Gateways.Ibge
             
             await _caching
                 .Received()
-                .SaveManyAsync(Arg.Any<string>(), Arg.Any<IEnumerable<StateResponse>>());
+                .SaveManyAsync(Arg.Any<string>(), Arg.Any<IEnumerable<CityResponse>>());
             response.Should().BeEquivalentTo(cities, opt =>
                 opt.WithoutStrictOrdering()
             );

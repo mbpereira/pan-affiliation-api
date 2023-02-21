@@ -14,7 +14,7 @@ namespace Pan.Affiliation.Domain.ValueObjects
         public PostalCode(string cep)
         {
             OriginalValue = cep;
-            Value = cep.OnlyNumbers();
+            Value = cep?.OnlyNumbers();
             IsValid = Validate(cep);
         }
 
