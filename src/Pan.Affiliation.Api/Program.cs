@@ -1,4 +1,4 @@
- using Autofac;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Pan.Affiliation.Application;
 using Pan.Affiliation.Domain;
@@ -11,6 +11,8 @@ using static Pan.Affiliation.Shared.Constants.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.UseSerilog();
+builder.Logging.ClearProviders();
 
 // Add services to the container.
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>

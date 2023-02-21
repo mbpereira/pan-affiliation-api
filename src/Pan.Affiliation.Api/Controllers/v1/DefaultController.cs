@@ -16,7 +16,7 @@ namespace Pan.Affiliation.Api.Controllers.v1
             _context = context;
         }
 
-        protected IActionResult GenericResponse(object? data = null)
-            => new GenericResponseFactory(data, _context).Create();
+        protected ActionResult<GenericResponse<T>> GenericResponse<T>(T? data = null) where T : class
+            => new GenericResponseFactory<T>(data, _context).Create();
     }
 }

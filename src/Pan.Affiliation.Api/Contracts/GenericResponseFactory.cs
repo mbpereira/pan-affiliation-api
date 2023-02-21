@@ -4,18 +4,18 @@ using Pan.Affiliation.Domain.Shared;
 
 namespace Pan.Affiliation.Api.Contracts;
 
-public class GenericResponseFactory
+public class GenericResponseFactory<T> where T : class
 {
-    private readonly object? _data;
+    private readonly T? _data;
     private readonly IValidationContext _context;
 
-    public GenericResponseFactory(object? data, IValidationContext context)
+    public GenericResponseFactory(T? data, IValidationContext context)
     {
         _data = data;
         _context = context;
     }
-    
-    public IActionResult Create()
+
+    public ActionResult<GenericResponse<T>> Create()
     {
         if (_context is { ValidationStatus: null })
         {
@@ -25,7 +25,7 @@ public class GenericResponseFactory
             if (_data is not null)
                 return CreateGenericResponse(HttpStatusCode.OK, _data);
 
-            return StatusCodeResult(HttpStatusCode.NotFound);
+            return StatusCodeResult(HttpStatusCode.NoContent);
         }
 
         if (_context is { ValidationStatus: ValidationStatus.Failed })
@@ -43,18 +43,18 @@ public class GenericResponseFactory
         return StatusCodeResult(HttpStatusCode.NoContent);
     }
 
-    private IActionResult StatusCodeResult(HttpStatusCode statusCode) =>
+    private ActionResult StatusCodeResult(HttpStatusCode statusCode) =>
         new StatusCodeResult(statusCode.GetHashCode());
-    
-    private IActionResult CreateGenericResponse(HttpStatusCode statusCode, object? data = null)
+
+    private ActionResult<GenericResponse<T>> CreateGenericResponse(HttpStatusCode statusCode, T? data = null)
     {
         if (data is null && !_context.HasErrors)
             return StatusCodeResult(statusCode);
 
-        var response = new
+        var response = new GenericResponse<T>()
         {
-            data,
-            errors = _context.Errors
+            Data = data,
+            Errors = _context.Errors
         };
 
         return new ObjectResult(response)

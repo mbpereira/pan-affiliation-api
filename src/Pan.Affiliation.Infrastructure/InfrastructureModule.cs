@@ -70,7 +70,7 @@ namespace Pan.Affiliation.Infrastructure
                     .Enrich.WithSpan()
                     .WriteTo.Console()
                     .WriteTo.NewRelicLogs(licenseKey: settings.NewRelicSettings?.LicenseKey,
-                        applicationName: settings.NewRelicSettings.ApplicationName)
+                        applicationName: settings.NewRelicSettings?.ApplicationName)
                     .WriteTo.File(settings.LogFile!)
                     .CreateLogger();
                 
