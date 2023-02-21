@@ -12,7 +12,7 @@ namespace Pan.Affiliation.Api.Controllers.v1
         {
         }
 
-        [HttpGet]
+        [HttpGet("{stateId}")]
         public async Task<ActionResult<GenericResponse<IEnumerable<City>?>>> GetCitiesFromStateAsync(int stateId,
             [FromServices] IGetCitiesFromStateUseCase useCase)
             => GenericResponse(await useCase.ExecuteAsync(stateId));

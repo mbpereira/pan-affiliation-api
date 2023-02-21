@@ -12,7 +12,7 @@ public class PostalCodeController : DefaultController
     {
     }
     
-    [HttpGet]
+    [HttpGet("{postalCode}")]
     public async Task<ActionResult<GenericResponse<PostalCodeInformation?>>> GetInformationAsync(
         string postalCode,
         [FromServices] IGetPostalCodeInformationUseCase service) =>
