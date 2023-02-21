@@ -28,7 +28,7 @@ namespace Pan.Affiliation.Infrastructure.Persistence.Entities
         [MaxLength(150), Required]
         public string? Neighborhood { get; set; }
 
-        public CustomerInformation? Customer { get; set; }
+        public Customer? Customer { get; set; }
 
         [Required]
         public Guid CustomerId { get; set; }

@@ -3,7 +3,7 @@ using Pan.Affiliation.Domain.Shared;
 using Pan.Affiliation.Domain.Shared.Validation;
 using Pan.Affiliation.Domain.Shared.ValueObjects;
 
-namespace Pan.Affiliation.Domain.Modules.Merchant.Entities;
+namespace Pan.Affiliation.Domain.Modules.Customers.Entities;
 
 public class Address : BaseEntity
 {

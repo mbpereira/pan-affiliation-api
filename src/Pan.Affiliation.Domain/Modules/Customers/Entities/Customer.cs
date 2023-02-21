@@ -2,23 +2,23 @@ using FluentValidation;
 using Pan.Affiliation.Domain.Shared;
 using Pan.Affiliation.Domain.Shared.Validation;
 
-namespace Pan.Affiliation.Domain.Modules.Merchant.Entities;
+namespace Pan.Affiliation.Domain.Modules.Customers.Entities;
 
-public class CustomerInformation : BaseEntity
+public class Customer : BaseEntity
 {
-    private readonly Validator<CustomerInformation> _validator;
+    private readonly Validator<Customer> _validator;
 
     private IList<Address> _addresses;
     public IEnumerable<Address> Addresses => _addresses;
 
     public string Name { get; private set;  }
 
-    public CustomerInformation(Guid? id, string name, IList<Address>? addresses = null)
+    public Customer(Guid? id, string name, IList<Address>? addresses = null)
     {
         Id = id ?? Guid.NewGuid();
         Name = name;
         _addresses = addresses ?? new List<Address>();
-        _validator = Validator<CustomerInformation>.Create();
+        _validator = Validator<Customer>.Create();
     }
 
     public void ChangeName(string name)

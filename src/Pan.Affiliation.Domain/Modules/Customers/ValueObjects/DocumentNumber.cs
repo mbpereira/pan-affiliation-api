@@ -1,10 +1,10 @@
 using FluentValidation;
-using Pan.Affiliation.Domain.Modules.Merchant.Enums;
+using Pan.Affiliation.Domain.Modules.Customers.Enums;
 using Pan.Affiliation.Domain.Shared.Validation;
 using Pan.Affiliation.Domain.Shared.ValueObjects;
 using Pan.Affiliation.Shared.Extensions;
 
-namespace Pan.Affiliation.Domain.Modules.Merchant.ValueObjects;
+namespace Pan.Affiliation.Domain.Modules.Customers.ValueObjects;
 
 public record DocumentNumber : ValueObject
 {

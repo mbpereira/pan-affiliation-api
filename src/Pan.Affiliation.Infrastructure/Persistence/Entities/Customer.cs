@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Pan.Affiliation.Infrastructure.Persistence.Entities
 {
     [Index(nameof(DocumentNumber), IsUnique = true)]
-    public class CustomerInformation : BaseEntity
+    public class Customer : BaseEntity
     {
         [MaxLength(255), Required]
         public string? Name { get; set; }

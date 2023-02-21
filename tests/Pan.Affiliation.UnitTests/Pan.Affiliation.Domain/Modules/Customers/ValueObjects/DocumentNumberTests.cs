@@ -1,10 +1,9 @@
 using FluentAssertions;
-using Pan.Affiliation.Domain.Modules.Merchant;
-using Pan.Affiliation.Domain.Modules.Merchant.Enums;
-using Pan.Affiliation.Domain.Modules.Merchant.ValueObjects;
+using Pan.Affiliation.Domain.Modules.Customers.Enums;
+using Pan.Affiliation.Domain.Modules.Customers.ValueObjects;
 using Pan.Affiliation.Shared.Extensions;
 
-namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Domain.Modules.Merchant.ValueObjects;
+namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Domain.Modules.Customers.ValueObjects;
 
 public class DocumentNumberTests
 {
@@ -16,14 +15,14 @@ public class DocumentNumberTests
     public void Should_return_true_and_set_document_type_when_document_number_is_valid(string document,
         DocumentType expectedDocumentType)
     {
-        var documentNumberVO = new DocumentNumber(document);
+        var documentNumberVo = new DocumentNumber(document);
 
-        var isValid = documentNumberVO.IsValid();
+        var isValid = documentNumberVo.IsValid();
 
         isValid.Should().BeTrue();
-        documentNumberVO.DocumentType.Should().Be(expectedDocumentType);
-        documentNumberVO.OriginalValue.Should().Be(document);
-        documentNumberVO.Value.Should().Be(document.OnlyNumbers());
+        documentNumberVo.DocumentType.Should().Be(expectedDocumentType);
+        documentNumberVo.OriginalValue.Should().Be(document);
+        documentNumberVo.Value.Should().Be(document.OnlyNumbers());
     }
     
     [Theory]
@@ -37,11 +36,11 @@ public class DocumentNumberTests
     [InlineData("")]
     public void Should_return_false_when_document_number_is_not_valid(string document)
     {
-        var documentNumberVO = new DocumentNumber(document);
+        var documentNumberVo = new DocumentNumber(document);
 
-        var isValid = documentNumberVO.IsValid();
+        var isValid = documentNumberVo.IsValid();
 
         isValid.Should().BeFalse();
-        documentNumberVO.DocumentType.Should().BeNull();
+        documentNumberVo.DocumentType.Should().BeNull();
     }
 }
