@@ -365,3 +365,4 @@ FodyWeavers.xsd
 appsettings.Development.json
 results/
 .idea/
+tmp/

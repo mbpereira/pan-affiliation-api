@@ -1,19 +1,24 @@
 ﻿using Pan.Affiliation.Domain.Localization.Adapters;
 using Pan.Affiliation.Domain.Localization.Entities;
+using Pan.Affiliation.Domain.Logging;
 
-namespace Pan.Affiliation.Application.UseCases.GetStates
+namespace Pan.Affiliation.Application.UseCases.GetCountryStates
 {
     public class GetCountryStatesUseCase : IGetCountryStatesUseCase
     {
         private readonly ICountryStatesService _countryStatesService;
-
-        public GetCountryStatesUseCase(ICountryStatesService countryStateService)
+        private readonly ILogger<GetCountryStatesUseCase> _logger;
+        
+        public GetCountryStatesUseCase(ICountryStatesService countryStateService, ILogger<GetCountryStatesUseCase> logger)
         {
             _countryStatesService = countryStateService;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<State>?> ExecuteAsync()
         {
+            _logger.LogInformation("Getting country states");
+            
             var states = await _countryStatesService.GetCountryStatesAsync();
 
             if (states is null)
