@@ -25,7 +25,7 @@ public class RedisCacheProviderTests
     public async Task When_GetManyAsync_called_should_return_null_if_key_does_not_exists()
     {
         _database.SetMembersAsync(Arg.Any<RedisKey>())
-            .Returns(Task.FromResult<RedisValue[]>(null));
+            .Returns(Task.FromResult(Enumerable.Empty<RedisValue>().ToArray()));
         var provider = new RedisCacheProvider(_multiplexer);
 
         var result = await provider.GetManyAsync<object>(_faker.Random.Word());
