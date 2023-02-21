@@ -109,7 +109,8 @@ namespace Pan.Affiliation.Infrastructure
                 settings.Host,
                 settings.Username,
                 settings.Password,
-                settings.Database);
+                settings.Database,
+                settings.Port);
         }
     }
 }
