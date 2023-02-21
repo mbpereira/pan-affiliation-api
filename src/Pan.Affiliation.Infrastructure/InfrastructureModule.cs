@@ -47,7 +47,7 @@ namespace Pan.Affiliation.Infrastructure
                 .SingleInstance();
 
             RegisterRedis(builder);
-            
+
             builder.RegisterGeneric(typeof(Logging.Logger<>))
                 .As(typeof(Domain.Logging.ILogger<>))
                 .InstancePerLifetimeScope();
@@ -59,9 +59,13 @@ namespace Pan.Affiliation.Infrastructure
 
         private void RegisterRedis(ContainerBuilder builder)
         {
-            var settings = _settingsProvider.GetSection<RedisSettings>(RedisCacheProvider.Constants.SettingsKey); 
-            builder.Register(_ => 
-                ConnectionMultiplexer.Connect(settings.Host))
+            var settings = _settingsProvider.GetSection<RedisSettings>(RedisCacheProvider.Constants.SettingsKey);
+            builder.Register(_ =>
+                    ConnectionMultiplexer.Connect(new ConfigurationOptions()
+                    {
+                        EndPoints = { { settings.Host, settings.Port } },
+                        DefaultDatabase = settings.DefaultDatabase
+                    }))
                 .As<IConnectionMultiplexer>()
                 .SingleInstance();
         }
@@ -86,7 +90,7 @@ namespace Pan.Affiliation.Infrastructure
                         applicationName: settings.NewRelicSettings?.ApplicationName)
                     .WriteTo.File(settings.LogFile!)
                     .CreateLogger();
-                
+
                 loggingBuilder.ClearProviders();
                 loggingBuilder.AddSerilog(logger);
             });
