@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Pan.Affiliation.Domain.Shared.ValueObjects;
 
-namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Domain.ValueObjects
+namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Domain.Shared.ValueObjects
 {
     public class PostalCodeTests
     {
@@ -12,7 +12,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Domain.ValueObjects
         {
             PostalCode postalCode = new(validPostalCode);
 
-            var isValid = postalCode.IsValid;
+            var isValid = postalCode.IsValid();
 
             isValid.Should().BeTrue();
         }
@@ -32,7 +32,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Domain.ValueObjects
         {
             PostalCode postalCode = new(invalidPostalCode);
 
-            var isValid = postalCode.IsValid;
+            var isValid = postalCode.IsValid();
 
             isValid.Should().BeFalse();
         }

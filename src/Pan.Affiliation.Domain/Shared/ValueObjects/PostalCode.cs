@@ -4,17 +4,18 @@ using static Pan.Affiliation.Shared.Constants.Regex;
 
 namespace Pan.Affiliation.Domain.Shared.ValueObjects
 {
-    public struct PostalCode
+    public record PostalCode : ValueObject
     {
         public string? OriginalValue { get; }
         public string? Value { get; }
-        public bool IsValid { get; }
+        
+        private bool _isValid; 
 
         public PostalCode(string? cep)
         {
             OriginalValue = cep;
             Value = cep?.OnlyNumbers();
-            IsValid = Validate(cep);
+            _isValid = Validate(cep);
         }
 
         private static bool Validate(string? cep)
@@ -25,5 +26,8 @@ namespace Pan.Affiliation.Domain.Shared.ValueObjects
 
         public override string? ToString()
             => Value;
+
+        public override bool IsValid()
+            => _isValid;
     }
 }

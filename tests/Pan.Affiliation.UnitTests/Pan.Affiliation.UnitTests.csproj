@@ -36,4 +36,8 @@
     <ProjectReference Include="..\..\src\Pan.Affiliation.Infrastructure\Pan.Affiliation.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pan.Affiliation.Domain\Shared" />
+  </ItemGroup>
+
 </Project>

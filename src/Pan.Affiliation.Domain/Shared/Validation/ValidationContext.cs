@@ -33,9 +33,6 @@ public class ValidationContext : IValidationContext
 
     public void AddNotifications(ValidationResult validationResult)
     {
-        foreach (var error in validationResult.Errors)
-        {
-            AddNotification(error.ErrorCode, error.ErrorMessage);
-        }
+        AddNotifications(validationResult.Errors);
     }
 }
