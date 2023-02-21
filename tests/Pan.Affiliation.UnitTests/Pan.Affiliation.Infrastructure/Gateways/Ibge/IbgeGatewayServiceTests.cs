@@ -16,14 +16,14 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Gateways.Ibge
 public class IbgeGatewayServiceTests
 {
     private readonly ISettingsProvider _settingsProvider;
-    private readonly ILogger<IbgeGatewayGatewayGatewayService> _logger;
+    private readonly ILogger<IbgeGatewayGatewayFromStateStatesQuery> _logger;
     private readonly Faker _faker = new();
     private readonly ICacheProvider _caching;
 
     public IbgeGatewayServiceTests()
     {
         _settingsProvider = GetSettingsProvider();
-        _logger = Substitute.For<ILogger<IbgeGatewayGatewayGatewayService>>();
+        _logger = Substitute.For<ILogger<IbgeGatewayGatewayFromStateStatesQuery>>();
         _caching = Substitute.For<ICacheProvider>();
     }
 
@@ -156,6 +156,6 @@ public class IbgeGatewayServiceTests
         );
     }
 
-    private IbgeGatewayGatewayGatewayService GetGatewayService(IHttpClientFactory factory)
+    private IbgeGatewayGatewayFromStateStatesQuery GetGatewayService(IHttpClientFactory factory)
         => new(factory, _settingsProvider, _logger, _caching);
 }

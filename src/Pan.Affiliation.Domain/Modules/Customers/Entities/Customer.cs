@@ -1,4 +1,5 @@
 using FluentValidation;
+using Pan.Affiliation.Domain.Modules.Customers.ValueObjects;
 using Pan.Affiliation.Domain.Shared;
 using Pan.Affiliation.Domain.Shared.Validation;
 
@@ -11,12 +12,18 @@ public class Customer : BaseEntity
     private IList<Address> _addresses;
     public IEnumerable<Address> Addresses => _addresses;
 
-    public string Name { get; private set;  }
+    public string Name { get; private set; }
+    public DocumentNumber DocumentNumber { get; }
 
-    public Customer(Guid? id, string name, IList<Address>? addresses = null)
+    public Customer(
+        Guid? id,
+        string? name,
+        DocumentNumber documentNumber,
+        IList<Address>? addresses = null)
     {
         Id = id ?? Guid.NewGuid();
         Name = name;
+        DocumentNumber = documentNumber;
         _addresses = addresses ?? new List<Address>();
         _validator = Validator<Customer>.Create();
     }

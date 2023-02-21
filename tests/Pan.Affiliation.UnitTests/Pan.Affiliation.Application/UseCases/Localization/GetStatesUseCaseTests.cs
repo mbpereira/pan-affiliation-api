@@ -2,19 +2,19 @@
 using NSubstitute;
 using Pan.Affiliation.Application.UseCases.Localization;
 using Pan.Affiliation.Domain.Modules.Localization.Entities;
-using Pan.Affiliation.Domain.Modules.Localization.Gateways;
+using Pan.Affiliation.Domain.Modules.Localization.Queries;
 using Pan.Affiliation.Domain.Shared.Logging;
 
 namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Application.UseCases.Localization
 {
     public class GetStatesUseCaseTests
     {
-        private readonly ICountryStatesGatewayService _countryStatesGatewayService;
+        private readonly IGetCountryStatesQuery _getCountryStatesQuery;
         private readonly ILogger<GetCountryStatesUseCase> _logger;
 
         public GetStatesUseCaseTests()
         {
-            _countryStatesGatewayService = Substitute.For<ICountryStatesGatewayService>();
+            _getCountryStatesQuery = Substitute.For<IGetCountryStatesQuery>();
             _logger = Substitute.For<ILogger<GetCountryStatesUseCase>>();
         }
 
@@ -30,7 +30,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Application.UseCases.Localiz
                 new() { Name = "Rio de Janeiro", Acronym = "RJ" },
                 new() { Name = "São Paulo", Acronym = "SP" }
             };
-            _countryStatesGatewayService.GetCountryStatesAsync()
+            _getCountryStatesQuery.GetCountryStatesAsync()
                 .Returns(states);
             var useCase = GetCountryStatesUseCase();
 
@@ -52,7 +52,7 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Application.UseCases.Localiz
         public async Task When_ExecuteAsync_is_called_should_return_empty_if_response_from_service_is_null()
         {
             // arrange
-            _countryStatesGatewayService.GetCountryStatesAsync()
+            _getCountryStatesQuery.GetCountryStatesAsync()
                 .Returns(Task.FromResult<IEnumerable<State>?>(null));
             var useCase = GetCountryStatesUseCase();
 
@@ -64,6 +64,6 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Application.UseCases.Localiz
         }
 
         private GetCountryStatesUseCase GetCountryStatesUseCase()
-            => new(_countryStatesGatewayService, _logger);
+            => new(_getCountryStatesQuery, _logger);
     }
 }

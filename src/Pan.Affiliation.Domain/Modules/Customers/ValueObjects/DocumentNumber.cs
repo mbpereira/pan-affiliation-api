@@ -27,7 +27,7 @@ public record DocumentNumber : ValueObject
             _isValid = false;
             return;
         }
-        
+
         var validator = Validator<string>.Create();
 
         var documentType = Value.Length > 11
@@ -52,4 +52,7 @@ public record DocumentNumber : ValueObject
 
     public override bool IsValid()
         => _isValid;
+
+    public static implicit operator DocumentNumber(string? documentNumber) =>
+        new(documentNumber);
 }

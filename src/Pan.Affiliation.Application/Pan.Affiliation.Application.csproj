@@ -16,8 +16,4 @@
     <ProjectReference Include="..\Pan.Affiliation.Infrastructure\Pan.Affiliation.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UseCases\Customers" />
-  </ItemGroup>
-
 </Project>

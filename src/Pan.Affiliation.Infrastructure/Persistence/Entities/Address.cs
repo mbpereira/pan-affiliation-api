@@ -32,5 +32,18 @@ namespace Pan.Affiliation.Infrastructure.Persistence.Entities
 
         [Required]
         public Guid CustomerId { get; set; }
+
+        internal Domain.Modules.Customers.Entities.Address ToDomainEntity() => new()
+        {
+            Id = Id,
+            PostalCode = PostalCode,
+            City = City,
+            Complement = Complement,
+            Country = Country,
+            Neighborhood = Neighborhood,
+            Number = Number,
+            State = State,
+            Street = Street
+        };
     }
 }

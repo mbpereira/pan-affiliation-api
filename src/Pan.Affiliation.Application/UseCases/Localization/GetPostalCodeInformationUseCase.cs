@@ -1,5 +1,5 @@
 using Pan.Affiliation.Domain.Modules.Localization.Entities;
-using Pan.Affiliation.Domain.Modules.Localization.Gateways;
+using Pan.Affiliation.Domain.Modules.Localization.Queries;
 using Pan.Affiliation.Domain.Modules.Localization.UseCases;
 using Pan.Affiliation.Domain.Shared.Logging;
 using Pan.Affiliation.Domain.Shared.ValueObjects;
@@ -8,19 +8,19 @@ namespace Pan.Affiliation.Application.UseCases.Localization;
 
 public class GetPostalCodeInformationUseCase : IGetPostalCodeInformationUseCase
 {
-    private readonly IPostalCodeInformationGatewayService _gatewayService;
+    private readonly IGetPostalCodeInformationQuery _query;
     private readonly ILogger<GetPostalCodeInformationUseCase> _logger;
 
-    public GetPostalCodeInformationUseCase(IPostalCodeInformationGatewayService gatewayService,
+    public GetPostalCodeInformationUseCase(IGetPostalCodeInformationQuery query,
         ILogger<GetPostalCodeInformationUseCase> logger)
     {
-        _gatewayService = gatewayService;
+        _query = query;
         _logger = logger;
     }
 
     public Task<PostalCodeInformation?> ExecuteAsync(PostalCode param)
     {
         _logger.LogInformation("Getting postalCode information {postalCode}", param);
-        return _gatewayService.GetPostalCodeInformationAsync(param);
+        return _query.GetPostalCodeInformationAsync(param);
     }
 }

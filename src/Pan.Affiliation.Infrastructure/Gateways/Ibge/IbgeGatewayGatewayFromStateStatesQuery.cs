@@ -1,5 +1,5 @@
 ﻿using Pan.Affiliation.Domain.Modules.Localization.Entities;
-using Pan.Affiliation.Domain.Modules.Localization.Gateways;
+using Pan.Affiliation.Domain.Modules.Localization.Queries;
 using Pan.Affiliation.Domain.Shared.Caching;
 using Pan.Affiliation.Domain.Shared.Logging;
 using Pan.Affiliation.Domain.Shared.Settings;
@@ -22,15 +22,15 @@ internal static class Resources
     public const string GetCitiesFromStatePath = "estados/{0}/municipios";
 }
 
-public class IbgeGatewayGatewayGatewayService : HttpService, ICityGatewayService, ICountryStatesGatewayService
+public class IbgeGatewayGatewayFromStateStatesQuery : HttpService, IGetCityFromStateQuery, IGetCountryStatesQuery
 {
     private readonly HttpClient _http;
     private readonly ICacheProvider _caching;
 
-    public IbgeGatewayGatewayGatewayService(
+    public IbgeGatewayGatewayFromStateStatesQuery(
         IHttpClientFactory factory,
         ISettingsProvider settingsProvider,
-        ILogger<IbgeGatewayGatewayGatewayService> logger,
+        ILogger<IbgeGatewayGatewayFromStateStatesQuery> logger,
         ICacheProvider caching) : base(logger)
     {
         _caching = caching;

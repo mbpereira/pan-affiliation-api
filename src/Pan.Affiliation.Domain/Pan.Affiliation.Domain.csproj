@@ -23,9 +23,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Modules\Customers\Repositories" />
-    <Folder Include="Modules\Customers\UseCases" />
-  </ItemGroup>
-
 </Project>

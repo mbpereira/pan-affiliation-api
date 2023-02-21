@@ -1,5 +1,5 @@
 using Pan.Affiliation.Domain.Modules.Localization.Entities;
-using Pan.Affiliation.Domain.Modules.Localization.Gateways;
+using Pan.Affiliation.Domain.Modules.Localization.Queries;
 using Pan.Affiliation.Domain.Shared.Caching;
 using Pan.Affiliation.Domain.Shared.Logging;
 using Pan.Affiliation.Domain.Shared.Settings;
@@ -21,14 +21,14 @@ internal static class Resources
     public const string GetPostalCodeInformationPath = "ws/{0}/json";
 }
 
-public class ViaCepGatewayGatewayService : HttpService, IPostalCodeInformationGatewayService
+public class ViaCepGatewayQuery : HttpService, IGetPostalCodeInformationQuery
 {
     private readonly HttpClient _http;
     private readonly ICacheProvider _caching;
 
-    public ViaCepGatewayGatewayService(IHttpClientFactory factory,
+    public ViaCepGatewayQuery(IHttpClientFactory factory,
         ISettingsProvider settingsProvider,
-        ILogger<ViaCepGatewayGatewayService> logger, ICacheProvider cacheProvider) : base(logger)
+        ILogger<ViaCepGatewayQuery> logger, ICacheProvider cacheProvider) : base(logger)
     {
         var settings = settingsProvider.GetSection<HttpServiceSettings>(Constants.ViaCepSettingsKey);
         _http = factory.CreateClient(Constants.ViaCepHttpClient);

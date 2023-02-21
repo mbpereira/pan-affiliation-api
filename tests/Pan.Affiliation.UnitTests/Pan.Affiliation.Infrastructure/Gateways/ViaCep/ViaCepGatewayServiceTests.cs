@@ -16,14 +16,14 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Gateways.ViaC
 public class ViaCepGatewayServiceTests
 {
     private readonly ISettingsProvider _settingsProvider;
-    private readonly ILogger<ViaCepGatewayGatewayService> _logger;
+    private readonly ILogger<ViaCepGatewayQuery> _logger;
     private readonly ICacheProvider _caching;
     private readonly Faker _faker = new();
 
     public ViaCepGatewayServiceTests()
     {
         _settingsProvider = GetSettingsProvider();
-        _logger = Substitute.For<ILogger<ViaCepGatewayGatewayService>>();
+        _logger = Substitute.For<ILogger<ViaCepGatewayQuery>>();
         _caching = Substitute.For<ICacheProvider>();
     }
 
@@ -114,6 +114,6 @@ public class ViaCepGatewayServiceTests
             .Build();
     }
 
-    private ViaCepGatewayGatewayService GetGatewayService(IHttpClientFactory factory)
+    private ViaCepGatewayQuery GetGatewayService(IHttpClientFactory factory)
         => new(factory, _settingsProvider, _logger, _caching);
 }
