@@ -1,8 +1,9 @@
 ﻿using System.Text.RegularExpressions;
+using Pan.Affiliation.Domain.Shared.ValueObjects;
 using Pan.Affiliation.Shared.Extensions;
 using static Pan.Affiliation.Shared.Constants.Regex;
 
-namespace Pan.Affiliation.Domain.Shared.ValueObjects
+namespace Pan.Affiliation.Domain.Modules.Customers.ValueObjects
 {
     public record PostalCode : ValueObject
     {

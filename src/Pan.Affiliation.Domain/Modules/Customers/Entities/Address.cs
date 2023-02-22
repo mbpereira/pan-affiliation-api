@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 using FluentValidation;
+using Pan.Affiliation.Domain.Modules.Customers.ValueObjects;
 using Pan.Affiliation.Domain.Shared;
 using Pan.Affiliation.Domain.Shared.Validation;
-using Pan.Affiliation.Domain.Shared.ValueObjects;
 
 namespace Pan.Affiliation.Domain.Modules.Customers.Entities;
 

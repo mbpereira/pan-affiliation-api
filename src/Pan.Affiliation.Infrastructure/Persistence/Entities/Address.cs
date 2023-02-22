@@ -1,4 +1,6 @@
 ﻿using Pan.Affiliation.Infrastructure.Persistence.Entities.Shared;
+using DomainAddress = Pan.Affiliation.Domain.Modules.Customers.Entities.Address;
+using DomainCustomer = Pan.Affiliation.Domain.Modules.Customers.Entities.Customer;
 using System.ComponentModel.DataAnnotations;
 
 namespace Pan.Affiliation.Infrastructure.Persistence.Entities
@@ -45,5 +47,20 @@ namespace Pan.Affiliation.Infrastructure.Persistence.Entities
             State = State,
             Street = Street
         };
+
+        public static Address FromDomainEntity(DomainAddress address, DomainCustomer customer)
+            => new()
+            {
+                Id = address.Id,
+                PostalCode = address.PostalCode!,
+                City = address.City,
+                Complement = address.Complement,
+                Country = address.Country,
+                Neighborhood = address.Neighborhood,
+                Number = address.Number,
+                State = address.State,
+                Street = address.Street,
+                CustomerId = customer.Id
+            };
     }
 }
