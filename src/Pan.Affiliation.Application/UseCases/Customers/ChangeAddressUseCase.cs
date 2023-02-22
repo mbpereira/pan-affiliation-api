@@ -27,12 +27,12 @@ public class ChangeAddressUseCase : IChangeAddressUseCase
         _context = context;
     }
 
-    public async Task<Address> ExecuteAsync(ChangeAddressInput param)
+    public async Task<Address?> ExecuteAsync(ChangeAddressInput param)
     {
         var logScope = new Dictionary<string, object>
         {
             { "CustomerId", param.CustomerId },
-            { "AddressId", param.addressId }
+            { "AddressId", param.AddressId }
         };
         
         using var _ = _logger.BeginScope(logScope);
@@ -49,7 +49,7 @@ public class ChangeAddressUseCase : IChangeAddressUseCase
             return null;
         }
 
-        if (customer.Addresses.All(a => a.Id != param.addressId))
+        if (customer.Addresses.All(a => a.Id != param.AddressId))
         {
             _logger.LogWarning("Address was not found");
             _context.SetStatus(ValidationStatus.NotFound);

@@ -111,7 +111,7 @@ public class CustomersRepositoryTests
         });
         var repository = GetRepository(context);
 
-        var customer = customers.FirstOrDefault().ToDomainEntity();
+        var customer = customers.FirstOrDefault()!.ToDomainEntity();
         var newName = _faker.Person.FirstName;
         var oldName = customer.Name;
 
@@ -120,8 +120,8 @@ public class CustomersRepositoryTests
         var changedCustomer = await repository.GetCustomerByDocumentNumberAsync(customer.DocumentNumber);
 
         changedCustomer.Should().NotBeNull();
-        changedCustomer.Name.Should().Be(newName);
-        changedCustomer.Name.Should().NotBe(oldName);
+        changedCustomer?.Name.Should().Be(newName);
+        changedCustomer?.Name.Should().NotBe(oldName);
     }
 
     [Fact]
@@ -134,7 +134,7 @@ public class CustomersRepositoryTests
             await dbContext.SaveChangesAsync();
         });
         var repository = GetRepository(context);
-        var customer = customers.FirstOrDefault().ToDomainEntity();
+        var customer = customers.FirstOrDefault()!.ToDomainEntity();
         var oldAddressesCount = customer.Addresses.Count();
         var address = new AutoFaker<DomainAddress>()
             .RuleFor(
@@ -146,7 +146,8 @@ public class CustomersRepositoryTests
         await repository.ChangeCustomerAsync(customer);
         var changedCustomer = await repository.GetCustomerByDocumentNumberAsync(customer.DocumentNumber);
 
-        changedCustomer.Addresses.Count().Should().Be(oldAddressesCount + 1);
+        changedCustomer.Should().NotBeNull();
+        changedCustomer?.Addresses.Count().Should().Be(oldAddressesCount + 1);
     }
     
     [Fact]
@@ -159,15 +160,16 @@ public class CustomersRepositoryTests
             await dbContext.SaveChangesAsync();
         });
         var repository = GetRepository(context);
-        var customer = customers.FirstOrDefault().ToDomainEntity();
+        var customer = customers.FirstOrDefault()!.ToDomainEntity();
         var oldAddressesCount = customer.Addresses.Count();
         var addressToRemove = customer.Addresses.FirstOrDefault();
 
-        customer.RemoveAddress(addressToRemove.Id);
+        customer.RemoveAddress(addressToRemove!.Id);
         await repository.ChangeCustomerAsync(customer);
         var changedCustomer = await repository.GetCustomerByDocumentNumberAsync(customer.DocumentNumber);
 
-        changedCustomer.Addresses.Count().Should().Be(oldAddressesCount - 1);
+        changedCustomer.Should().NotBeNull();
+        changedCustomer?.Addresses.Count().Should().Be(oldAddressesCount - 1);
     }
     
     [Fact]
@@ -180,20 +182,21 @@ public class CustomersRepositoryTests
             await dbContext.SaveChangesAsync();
         });
         var repository = GetRepository(context);
-        var customer = customers.FirstOrDefault().ToDomainEntity();
+        var customer = customers.FirstOrDefault()!.ToDomainEntity();
         var addressToChange = customer.Addresses.FirstOrDefault();
         var oldAddressQt = customer.Addresses.Count();
-        var oldStreetName = addressToChange.Street;
+        var oldStreetName = addressToChange!.Street;
         var newStreetName = _faker.Random.Word();
         addressToChange.Street = newStreetName;
 
         customer.ChangeAddress(addressToChange);
         await repository.ChangeCustomerAsync(customer);
         var changedCustomer = await repository.GetCustomerByDocumentNumberAsync(customer.DocumentNumber);
-        var changedAddress = changedCustomer.Addresses.FirstOrDefault(a => a.Id == addressToChange.Id);
+        var changedAddress = changedCustomer!.Addresses.FirstOrDefault(a => a.Id == addressToChange.Id);
 
-        changedAddress.Street.Should().Be(newStreetName);
-        changedAddress.Street.Should().NotBe(oldStreetName);
+        changedAddress.Should().NotBeNull();
+        changedAddress?.Street.Should().Be(newStreetName);
+        changedAddress?.Street.Should().NotBe(oldStreetName);
         changedCustomer.Addresses.Count().Should().Be(oldAddressQt);
     }
 
@@ -227,20 +230,6 @@ public class CustomersRepositoryTests
                     .Generate(addressQt))
             .RuleFor(
                 c => c.DocumentNumber,
-                _ => _faker.Person.Cpf(includeFormatSymbols: false))
-            .Generate(customersQt);
-    }
-
-    private List<DomainCustomer> GetFakeDomainCustomers(int customersQt = 1, int addressQt = 3)
-    {
-        return new AutoFaker<DomainCustomer>()
-            .RuleFor(
-                c => c.Addresses,
-                _ => new AutoFaker<DomainAddress>()
-                    .RuleFor(a => a.PostalCode, _ => GetFakeCep())
-                    .Generate(addressQt))
-            .RuleFor(
-                c => c.DocumentNumberVo,
                 _ => _faker.Person.Cpf(includeFormatSymbols: false))
             .Generate(customersQt);
     }

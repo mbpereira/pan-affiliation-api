@@ -1,13 +1,10 @@
-using Pan.Affiliation.Domain.Shared.Settings;
-using Pan.Affiliation.Infrastructure.Settings.Sections;
-
 namespace Pan.Affiliation.Infrastructure.Persistence.Helpers;
 
 public class DbMigrator : IDbMigrator
 {
     private readonly PanAffiliationDbContext _context;
 
-    public DbMigrator(PanAffiliationDbContext context, ISettingsProvider settingsProvider)
+    public DbMigrator(PanAffiliationDbContext context)
     {
         _context = context;
     }

@@ -35,7 +35,7 @@ public class DbSeeder : IDbSeeder
         {
             var customerExists =
                 await _context
-                    .Customers
+                    .Customers!
                     .FirstOrDefaultAsync(c => c.DocumentNumber == customer.DocumentNumber) != null;
 
             if (customerExists) continue;

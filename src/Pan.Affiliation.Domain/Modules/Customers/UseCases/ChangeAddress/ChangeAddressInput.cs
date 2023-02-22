@@ -1,10 +1,10 @@
 namespace Pan.Affiliation.Domain.Modules.Customers.UseCases.ChangeAddress;
 
-public record ChangeAddressInput(Guid CustomerId, Guid addressId, AddressInput Address)
+public record ChangeAddressInput(Guid CustomerId, Guid AddressId, AddressInput Address)
 {
-    public Domain.Modules.Customers.Entities.Address ToDomainAddress() => new()
+    public Entities.Address ToDomainAddress() => new()
     {
-        Id = addressId,
+        Id = AddressId,
         City = Address.City,
         Complement = Address.Complement,
         Country = Address.Country,

@@ -36,7 +36,7 @@ public class ChangeAddressUseCaseTests
             .Returns(Task.FromResult<Customer?>(null));
         var useCase = GetUseCase();
 
-        var changedAddress = await useCase.ExecuteAsync(new(Guid.NewGuid(), Guid.NewGuid(), null));
+        var changedAddress = await useCase.ExecuteAsync(new(Guid.NewGuid(), Guid.NewGuid(), new()));
 
         changedAddress.Should().BeNull();
         _validationContext.Received().SetStatus(Arg.Is(ValidationStatus.NotFound));
@@ -60,7 +60,7 @@ public class ChangeAddressUseCaseTests
         changedAddress.Should().BeNull();
         _validationContext.Received().SetStatus(Arg.Is(ValidationStatus.NotFound));
         _validationContext.Received().AddNotification(Arg.Is<Error>(e =>
-            e.Key == nameof(AddressInput) && e.Message == Shared.Constants.Errors.RecordNotFound));
+            e.Key == nameof(Address) && e.Message == Shared.Constants.Errors.RecordNotFound));
     }
 
     [Fact]
@@ -111,8 +111,8 @@ public class ChangeAddressUseCaseTests
         var changedAddress = await useCase.ExecuteAsync(input);
 
         changedAddress.Should().NotBeNull();
-        changedAddress.Street.Should().Be(newStreetName);
-        changedAddress.Street.Should().NotBe(oldStreetName);
+        changedAddress?.Street!.Should().Be(newStreetName);
+        changedAddress?.Street!.Should().NotBe(oldStreetName);
     }
 
     private ChangeAddressUseCase GetUseCase()

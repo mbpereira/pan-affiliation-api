@@ -3,7 +3,6 @@ using Pan.Affiliation.Domain.Modules.Localization.Entities;
 using Pan.Affiliation.Domain.Modules.Localization.Queries;
 using Pan.Affiliation.Domain.Modules.Localization.UseCases;
 using Pan.Affiliation.Domain.Shared.Logging;
-using Pan.Affiliation.Domain.Shared.ValueObjects;
 
 namespace Pan.Affiliation.Application.UseCases.Localization;
 

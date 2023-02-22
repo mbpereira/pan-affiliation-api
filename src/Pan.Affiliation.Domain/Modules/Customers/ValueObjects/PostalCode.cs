@@ -22,8 +22,8 @@ namespace Pan.Affiliation.Domain.Modules.Customers.ValueObjects
         private static bool Validate(string? cep)
             => !string.IsNullOrEmpty(cep) && Regex.IsMatch(cep, ValidCep);
 
-        public static implicit operator PostalCode(string cep)
-            => new(cep);
+        public static implicit operator PostalCode(string? postalCode)
+            => new(postalCode);
 
         public override string ToString()
             => Value;
