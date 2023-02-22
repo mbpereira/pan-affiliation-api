@@ -1,5 +1,5 @@
 using Pan.Affiliation.Domain.Modules.Localization.Entities;
-using Pan.Affiliation.Domain.Shared.UseCase;
+using Pan.Affiliation.Domain.Shared.UseCases;
 using Pan.Affiliation.Domain.Shared.ValueObjects;
 
 namespace Pan.Affiliation.Domain.Modules.Localization.UseCases;

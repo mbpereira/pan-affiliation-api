@@ -1,4 +1,4 @@
-﻿namespace Pan.Affiliation.Domain.Shared.UseCase
+﻿namespace Pan.Affiliation.Domain.Shared.UseCases
 {
     public interface IParameterlessUseCase<TResponse>
     {
