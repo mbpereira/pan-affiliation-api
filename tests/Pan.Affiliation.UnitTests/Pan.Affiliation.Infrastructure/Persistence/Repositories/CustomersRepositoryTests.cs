@@ -3,12 +3,9 @@ using Bogus;
 using Bogus.Extensions.Brazil;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Pan.Affiliation.Infrastructure.Persistence.Entities;
 using Pan.Affiliation.Infrastructure.Persistence.Repositories;
 using Pan.Affiliation.Shared.Extensions;
-using Pan.Affiliation.Domain.Modules.Customers.Entities;
 using Pan.Affiliation.Infrastructure.Persistence;
-using Address = Bogus.DataSets.Address;
 using DomainCustomer = Pan.Affiliation.Domain.Modules.Customers.Entities.Customer;
 using DomainAddress = Pan.Affiliation.Domain.Modules.Customers.Entities.Address;
 using InfraCustomer = Pan.Affiliation.Infrastructure.Persistence.Entities.Customer;
@@ -17,7 +14,7 @@ using InfraAddress = Pan.Affiliation.Infrastructure.Persistence.Entities.Address
 
 namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Infrastructure.Persistence.Repositories;
 
-public class CustomerRepositoryTests
+public class CustomersRepositoryTests
 {
     private readonly Faker _faker = new();
 
