@@ -7,7 +7,10 @@ using Address = Pan.Affiliation.Infrastructure.Persistence.Entities.Address;
 
 namespace Pan.Affiliation.Infrastructure.Persistence.Repositories;
 
-public class CustomersRepository : IGetCustomerByDocumentNumberQueryHandler, IChangeCustomerCommandHandler
+public class CustomersRepository : 
+    IGetCustomerByDocumentNumberQueryHandler, 
+    IChangeCustomerCommandHandler,
+    IGetCustomerByIdQueryHandler
 {
     private readonly PanAffiliationDbContext _context;
 
@@ -30,7 +33,7 @@ public class CustomersRepository : IGetCustomerByDocumentNumberQueryHandler, ICh
 
     public async Task<Customer?> ChangeCustomerAsync(Customer customer)
     {
-        var old = await GetCustomerByIdAsync(customer.Id);
+        var old = await GetCustomerEntityByIdAsync(customer.Id);
 
         if (old is null)
             return null;
@@ -40,7 +43,17 @@ public class CustomersRepository : IGetCustomerByDocumentNumberQueryHandler, ICh
         return @new.ToDomainEntity();
     }
 
-    private async Task<Entities.Customer?> GetCustomerByIdAsync(Guid id)
+    public async Task<Customer?> GetCustomerByIdAsync(Guid id)
+    {
+        var customer = await GetCustomerEntityByIdAsync(id);
+
+        if (customer is null)
+            return null;
+
+        return customer.ToDomainEntity();
+    }
+        
+    public async Task<Entities.Customer?> GetCustomerEntityByIdAsync(Guid id)
         => await _context
                 .Customers!
                 .Include(c => c.Addresses)
@@ -51,18 +64,20 @@ public class CustomersRepository : IGetCustomerByDocumentNumberQueryHandler, ICh
     {
         _context.Entry(old).CurrentValues.SetValues(@new);
 
-        await ChangeAddressesAsync(old.Addresses, @new.Addresses);
+        await ChangeAddressesAsync(
+            old.Addresses, 
+            @new.Addresses);
 
         await _context.SaveChangesAsync();
 
         return @new;
     }
 
-    private async Task ChangeAddressesAsync(IEnumerable<Address> oldAddresses, IEnumerable<Address> newAddresses)
+    private async Task ChangeAddressesAsync(IEnumerable<Address> oldAddresses, IEnumerable<Address>? newAddresses)
     {
         foreach (var old in oldAddresses)
         {
-            var @new = newAddresses.FirstOrDefault(a => a.Id == old.Id);
+            var @new = newAddresses?.FirstOrDefault(a => a.Id == old.Id);
 
             if (@new is null) continue;
 
@@ -71,13 +86,12 @@ public class CustomersRepository : IGetCustomerByDocumentNumberQueryHandler, ICh
 
         var addressesToRemove = oldAddresses
             .Where(old => newAddresses.All(@new => old.Id != @new.Id));
-
         var addressesToInsert = newAddresses
-            .Where(@new => !oldAddresses.Any(old => old.Id == @new.Id));
+            .Where(@new => oldAddresses.All(old => old.Id != @new.Id));
 
         if (addressesToRemove.Any())
-            _context.Addresses.RemoveRange(addressesToRemove);
+            _context.Addresses!.RemoveRange(addressesToRemove);
 
-        await _context.Addresses.AddRangeAsync(addressesToInsert);
+        await _context.Addresses!.AddRangeAsync(addressesToInsert);
     }
 }

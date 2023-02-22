@@ -40,18 +40,28 @@ public class Address : BaseEntity
             .Must(code => code?.IsValid() is true);
         
         _validator.RuleFor(a => a.Street)
+            .NotEmpty()
+            .NotNull()
             .Length(min: 3, max: 300);
         
         _validator.RuleFor(a => a.City)
+            .NotEmpty()
+            .NotNull()
             .Length(min: 3, max: 100);
         
         _validator.RuleFor(a => a.State)
+            .NotEmpty()
+            .NotNull()
             .Length(exactLength: 2);    
         
         _validator.RuleFor(a => a.Country)
+            .NotEmpty()
+            .NotNull()
             .Length(min: 3, max: 50);
         
         _validator.RuleFor(a => a.Neighborhood)
+            .NotEmpty()
+            .NotNull()
             .Length(min: 3, max: 150);
         
         return _validator.Validate(this);
