@@ -7,10 +7,11 @@ using Address = Pan.Affiliation.Infrastructure.Persistence.Entities.Address;
 
 namespace Pan.Affiliation.Infrastructure.Persistence.Repositories;
 
-public class CustomersRepository : 
-    IGetCustomerByDocumentNumberQueryHandler, 
+public class CustomersRepository :
+    IGetCustomerByDocumentNumberQueryHandler,
     IChangeCustomerCommandHandler,
-    IGetCustomerByIdQueryHandler
+    IGetCustomerByIdQueryHandler,
+    IGetAllCustomersQueryHandler
 {
     private readonly PanAffiliationDbContext _context;
 
@@ -52,12 +53,12 @@ public class CustomersRepository :
 
         return customer.ToDomainEntity();
     }
-        
+
     public async Task<Entities.Customer?> GetCustomerEntityByIdAsync(Guid id)
         => await _context
-                .Customers!
-                .Include(c => c.Addresses)
-                .FirstOrDefaultAsync(c => c.Id == id);
+            .Customers!
+            .Include(c => c.Addresses)
+            .FirstOrDefaultAsync(c => c.Id == id);
 
     private async Task<Persistence.Entities.Customer> ChangeCustomerAsync(Persistence.Entities.Customer old,
         Persistence.Entities.Customer @new)
@@ -65,7 +66,7 @@ public class CustomersRepository :
         _context.Entry(old).CurrentValues.SetValues(@new);
 
         await ChangeAddressesAsync(
-            old.Addresses, 
+            old.Addresses,
             @new.Addresses);
 
         await _context.SaveChangesAsync();
@@ -93,5 +94,17 @@ public class CustomersRepository :
             _context.Addresses!.RemoveRange(addressesToRemove);
 
         await _context.Addresses!.AddRangeAsync(addressesToInsert);
+    }
+
+    public async Task<IEnumerable<Customer>> GetAllCustomersAsync(int skip = 0, int take = 25)
+    {
+        var customers = await _context
+            .Customers
+            .Include(c => c.Addresses)
+            .Skip(skip)
+            .Take(take)
+            .ToListAsync();
+
+        return customers.Select(c => c.ToDomainEntity());
     }
 }
