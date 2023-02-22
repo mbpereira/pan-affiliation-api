@@ -1,6 +1,6 @@
 using Pan.Affiliation.Domain.Modules.Customers.Entities;
 using Pan.Affiliation.Domain.Modules.Customers.Queries;
-using Pan.Affiliation.Domain.Modules.Customers.UseCases.GetAllCustomersUseCase;
+using Pan.Affiliation.Domain.Modules.Customers.UseCases.GetAllCustomers;
 using Pan.Affiliation.Domain.Shared.Logging;
 using Pan.Affiliation.Domain.Shared.Validation;
 
