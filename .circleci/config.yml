@@ -35,9 +35,26 @@ jobs:
             name: Deploy to VPS
             command: |
               ssh $SSH_USER@$SSH_HOST "bash -c '
-                docker ps -a -q --filter name=$DOCKER_IMG_NAME | grep -q . && docker stop $DOCKER_IMG_NAME && docker rm -f $DOCKER_IMG_NAME || echo Skipped && docker rmi -f $DOCKER_HUB_USERNAME/$DOCKER_IMG_NAME && docker run -p $API_PORT:80 -d --name $DOCKER_IMG_NAME $DOCKER_HUB_USERNAME/$DOCKER_IMG_NAME
-                echo Hello
-                '"
+                mkdir -p ~/.secrets/$DOCKER_IMG_NAME 2> /dev/null
+                tee -a ~/.secrets/$DOCKER_IMG_NAME \<<EOF
+                  ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT
+                  Logging__LogFile=$Logging__LogFile
+                  Logging__NewRelicSettings__LicenseKey=$Logging__NewRelicSettings__LicenseKey
+                  Logging__NewRelicSettings__ApplicationName=$Logging__NewRelicSettings__ApplicationName
+                  PanAffiliationDbSettings__Username=$PanAffiliationDbSettings__Username
+                  PanAffiliationDbSettings__Password=$PanAffiliationDbSettings__Password
+                  PanAffiliationDbSettings__Port=$PanAffiliationDbSettings__Port
+                  PanAffiliationDbSettings__Database=$PanAffiliationDbSettings__Database
+                  PanAffiliationDbSettings__ApplyMigrationsOnStartup=$PanAffiliationDbSettings__ApplyMigrationsOnStartup
+                  PanAffiliationDbSettings__Host=$PanAffiliationDbSettings__Host
+                  IbgeSettings__BaseUrl=$IbgeSettings__BaseUrl
+                  ViaCepSettings__BaseUrl=$ViaCepSettings__BaseUrl
+                  RedisSettings__Host=$RedisSettings__Host
+                  RedisSettings__Port=$RedisSettings__Port
+                  RedisSettings__DefaultDatabase=$RedisSettings__DefaultDatabase
+                EOF
+                docker ps -a -q --filter name=$DOCKER_IMG_NAME | grep -q . && docker stop $DOCKER_IMG_NAME && docker rm -f $DOCKER_IMG_NAME || echo Skipped && docker rmi -f $DOCKER_HUB_USERNAME/$DOCKER_IMG_NAME && docker run -p $API_PORT:80 -d --name $DOCKER_IMG_NAME --env-file ~/.secrets/$DOCKER_IMG_NAME/.env $DOCKER_HUB_USERNAME/$DOCKER_IMG_NAME
+              '"
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
