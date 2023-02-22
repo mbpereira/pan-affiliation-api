@@ -13,20 +13,20 @@ namespace Pan.Affiliation.UnitTests.Pan.Affiliation.Application.UseCases.Custome
 
 public class GetCustomerByDocumentNumberUseCaseTests
 {
-    private readonly IGetCustomerByDocumentNumberQuery _query;
+    private readonly IGetCustomerByDocumentNumberQueryHandler _queryHandler;
     private readonly ILogger<GetCustomerByDocumentNumberUseCase> _logger;
     private readonly IValidationContext _validationContext;
     private readonly Faker _faker = new();
 
     public GetCustomerByDocumentNumberUseCaseTests()
     {
-        _query = Substitute.For<IGetCustomerByDocumentNumberQuery>();
+        _queryHandler = Substitute.For<IGetCustomerByDocumentNumberQueryHandler>();
         _logger = Substitute.For<ILogger<GetCustomerByDocumentNumberUseCase>>();
         _validationContext = Substitute.For<IValidationContext>();
     }
 
     public GetCustomerByDocumentNumberUseCase GetUseCase()
-        => new(_query, _logger, _validationContext);
+        => new(_queryHandler, _logger, _validationContext);
 
     [Fact]
     public async Task When_ExecuteAsync_is_called_with_invalid_document_should_return_null()
@@ -69,7 +69,7 @@ public class GetCustomerByDocumentNumberUseCaseTests
     {
         var customer = new AutoFaker<Customer>()
             .Generate();
-        _query.GetCustomerByDocumentNumberAsync(Arg.Is<DocumentNumber>(validDocument))
+        _queryHandler.GetCustomerByDocumentNumberAsync(Arg.Is<DocumentNumber>(validDocument))
             .Returns(customer);
         var useCase = GetUseCase();
 

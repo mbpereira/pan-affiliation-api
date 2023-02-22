@@ -1,9 +1,9 @@
+using Pan.Affiliation.Domain.Modules.Customers.ValueObjects;
 using Pan.Affiliation.Domain.Modules.Localization.Entities;
 using Pan.Affiliation.Domain.Modules.Localization.Queries;
 using Pan.Affiliation.Domain.Shared.Caching;
 using Pan.Affiliation.Domain.Shared.Logging;
 using Pan.Affiliation.Domain.Shared.Settings;
-using Pan.Affiliation.Domain.Shared.ValueObjects;
 using Pan.Affiliation.Infrastructure.Gateways.ViaCep.Contracts;
 using Pan.Affiliation.Infrastructure.Settings.Sections;
 

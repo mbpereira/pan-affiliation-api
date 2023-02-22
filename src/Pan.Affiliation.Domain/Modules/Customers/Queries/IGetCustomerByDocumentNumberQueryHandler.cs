@@ -3,7 +3,7 @@ using Pan.Affiliation.Domain.Modules.Customers.ValueObjects;
 
 namespace Pan.Affiliation.Domain.Modules.Customers.Queries;
 
-public interface IGetCustomerByDocumentNumberQuery
+public interface IGetCustomerByDocumentNumberQueryHandler
 {
     Task<Customer?> GetCustomerByDocumentNumberAsync(DocumentNumber documentNumber);
 }

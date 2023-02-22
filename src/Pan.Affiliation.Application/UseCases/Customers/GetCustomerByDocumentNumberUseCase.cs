@@ -1,6 +1,6 @@
 using Pan.Affiliation.Domain.Modules.Customers.Entities;
 using Pan.Affiliation.Domain.Modules.Customers.Queries;
-using Pan.Affiliation.Domain.Modules.Customers.UseCases;
+using Pan.Affiliation.Domain.Modules.Customers.UseCases.GetCustomerByDocumentNumber;
 using Pan.Affiliation.Domain.Modules.Customers.ValueObjects;
 using Pan.Affiliation.Domain.Shared.Logging;
 using Pan.Affiliation.Domain.Shared.Validation;
@@ -9,14 +9,14 @@ namespace Pan.Affiliation.Application.UseCases.Customers;
 
 public class GetCustomerByDocumentNumberUseCase : IGetCustomerByDocumentNumberUseCase
 {
-    private readonly IGetCustomerByDocumentNumberQuery _query;
+    private readonly IGetCustomerByDocumentNumberQueryHandler _queryHandler;
     private readonly ILogger<GetCustomerByDocumentNumberUseCase> _logger;
     private readonly IValidationContext _validationContext;
 
-    public GetCustomerByDocumentNumberUseCase(IGetCustomerByDocumentNumberQuery query,
+    public GetCustomerByDocumentNumberUseCase(IGetCustomerByDocumentNumberQueryHandler queryHandler,
         ILogger<GetCustomerByDocumentNumberUseCase> logger, IValidationContext validationContext)
     {
-        _query = query;
+        _queryHandler = queryHandler;
         _logger = logger;
         _validationContext = validationContext;
     }
@@ -38,7 +38,7 @@ public class GetCustomerByDocumentNumberUseCase : IGetCustomerByDocumentNumberUs
             return null;
         }
 
-        var foundCustomer = await _query.GetCustomerByDocumentNumberAsync(param);
+        var foundCustomer = await _queryHandler.GetCustomerByDocumentNumberAsync(param);
 
         if (foundCustomer is null)
         {

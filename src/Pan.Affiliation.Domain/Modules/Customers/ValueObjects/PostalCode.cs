@@ -1,8 +1,9 @@
 ﻿using System.Text.RegularExpressions;
+using Pan.Affiliation.Domain.Shared.ValueObjects;
 using Pan.Affiliation.Shared.Extensions;
 using static Pan.Affiliation.Shared.Constants.Regex;
 
-namespace Pan.Affiliation.Domain.Shared.ValueObjects
+namespace Pan.Affiliation.Domain.Modules.Customers.ValueObjects
 {
     public record PostalCode : ValueObject
     {
@@ -21,8 +22,8 @@ namespace Pan.Affiliation.Domain.Shared.ValueObjects
         private static bool Validate(string? cep)
             => !string.IsNullOrEmpty(cep) && Regex.IsMatch(cep, ValidCep);
 
-        public static implicit operator PostalCode(string cep)
-            => new(cep);
+        public static implicit operator PostalCode(string? postalCode)
+            => new(postalCode);
 
         public override string ToString()
             => Value;

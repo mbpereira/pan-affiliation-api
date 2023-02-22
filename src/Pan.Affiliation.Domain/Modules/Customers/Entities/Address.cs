@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 using FluentValidation;
+using Pan.Affiliation.Domain.Modules.Customers.ValueObjects;
 using Pan.Affiliation.Domain.Shared;
 using Pan.Affiliation.Domain.Shared.Validation;
-using Pan.Affiliation.Domain.Shared.ValueObjects;
 
 namespace Pan.Affiliation.Domain.Modules.Customers.Entities;
 
@@ -40,18 +40,28 @@ public class Address : BaseEntity
             .Must(code => code?.IsValid() is true);
         
         _validator.RuleFor(a => a.Street)
+            .NotEmpty()
+            .NotNull()
             .Length(min: 3, max: 300);
         
         _validator.RuleFor(a => a.City)
+            .NotEmpty()
+            .NotNull()
             .Length(min: 3, max: 100);
         
         _validator.RuleFor(a => a.State)
+            .NotEmpty()
+            .NotNull()
             .Length(exactLength: 2);    
         
         _validator.RuleFor(a => a.Country)
+            .NotEmpty()
+            .NotNull()
             .Length(min: 3, max: 50);
         
         _validator.RuleFor(a => a.Neighborhood)
+            .NotEmpty()
+            .NotNull()
             .Length(min: 3, max: 150);
         
         return _validator.Validate(this);
