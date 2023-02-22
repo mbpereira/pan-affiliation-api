@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  cache:
+    image: redis
+    ports:
+      - "6361:6379"
+  postgres:
+    image: postgres
+    ports:
+      - "6362:5432"
+    environment:
+      POSTGRES_PASSWORD: "admin"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - "./volumes/pgdata:/var/lib/postgresql/data"
+  api:
+    build: .
+    depends_on:
+      - postgres
+      - cache
+    ports:
+      - "6363:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Staging"
+      Logging__LogFile: "./log"
+      Logging__NewRelicSettings__LicenseKey: "{YourLicenseKeyHere}"
+      Logging__NewRelicSettings__ApplicationName: "PanAffiliationApi-Staging"
+      PanAffiliationDbSettings__Username: "postgres"
+      PanAffiliationDbSettings__Password: "admin"
+      PanAffiliationDbSettings__Port: "5432"
+      PanAffiliationDbSettings__Database: "PanAffiliationApi"
+      PanAffiliationDbSettings__ApplyMigrationsOnStartup: "true"
+      PanAffiliationDbSettings__Host: "postgres"
+      IbgeSettings__BaseUrl: "https://servicodados.ibge.gov.br/api/v1/localidades/"
+      ViaCepSettings__BaseUrl: "https://viacep.com.br/"
+      RedisSettings__Host: "cache"
+      RedisSettings__Port: "6379"
+      RedisSettings__DefaultDatabase: 7
+      
