@@ -40,7 +40,7 @@ public class GetCustomerByDocumentNumberUseCaseTests
             .Received()
             .AddNotification(
                 Arg.Is<string>(nameof(DocumentNumber)),
-                Arg.Is<string>(Shared.Constants.Errors.InvalidDocumentNumberErrorMessage));
+                Arg.Is<string>(Shared.Constants.Errors.InvalidDocumentNumberError));
     }
 
     [Theory]
