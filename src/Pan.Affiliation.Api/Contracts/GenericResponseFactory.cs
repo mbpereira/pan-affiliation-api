@@ -25,7 +25,7 @@ public class GenericResponseFactory<T> where T : class
             if (_data is not null)
                 return CreateGenericResponse(HttpStatusCode.OK, _data);
 
-            return StatusCodeResult(HttpStatusCode.NoContent);
+            return CreateGenericResponse(HttpStatusCode.NoContent);
         }
 
         if (_context is { ValidationStatus: ValidationStatus.Failed })
@@ -38,9 +38,12 @@ public class GenericResponseFactory<T> where T : class
             return CreateGenericResponse(HttpStatusCode.OK, _data);
 
         if (_context is { ValidationStatus: ValidationStatus.NotFound })
-            return StatusCodeResult(HttpStatusCode.NotFound);
+            return CreateGenericResponse(HttpStatusCode.NotFound);
 
-        return StatusCodeResult(HttpStatusCode.NoContent);
+        if (_context is { ValidationStatus: ValidationStatus.Conflict })
+            return CreateGenericResponse(HttpStatusCode.Conflict);
+
+        return CreateGenericResponse(HttpStatusCode.NoContent);
     }
 
     private ActionResult StatusCodeResult(HttpStatusCode statusCode) =>

@@ -11,7 +11,8 @@ public class CustomersRepository :
     IGetCustomerByDocumentNumberQueryHandler,
     IChangeCustomerCommandHandler,
     IGetCustomerByIdQueryHandler,
-    IGetAllCustomersQueryHandler
+    IGetAllCustomersQueryHandler,
+    ICreateCustomerCommandHandler
 {
     private readonly PanAffiliationDbContext _context;
 
@@ -106,5 +107,13 @@ public class CustomersRepository :
             .ToListAsync();
 
         return customers.Select(c => c.ToDomainEntity());
+    }
+
+    public async Task<Customer> CreateCustomerAsync(Customer customer)
+    {
+        var entity = Entities.Customer.FromDomainEntity(customer);
+        await _context.Customers.AddAsync(entity);
+        await _context.SaveChangesAsync();
+        return entity.ToDomainEntity();
     }
 }

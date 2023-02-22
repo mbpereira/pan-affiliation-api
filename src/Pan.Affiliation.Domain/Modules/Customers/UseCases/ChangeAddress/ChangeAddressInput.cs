@@ -1,19 +1,11 @@
+using Pan.Affiliation.Domain.Modules.Customers.Entities;
+
 namespace Pan.Affiliation.Domain.Modules.Customers.UseCases.ChangeAddress;
 
 public record ChangeAddressInput(Guid CustomerId, Guid AddressId, AddressInput Address)
 {
-    public Entities.Address ToDomainAddress() => new()
-    {
-        Id = AddressId,
-        City = Address.City,
-        Complement = Address.Complement,
-        Country = Address.Country,
-        Neighborhood = Address.Neighborhood,
-        Number = Address.Number,
-        State = Address.State,
-        Street = Address.Street,
-        PostalCodeVo = Address.PostalCode
-    };
+    public Address ToDomainAddress()
+        => Address.ToDomainEntity(AddressId);
 }
 
 public record AddressInput
@@ -33,4 +25,18 @@ public record AddressInput
     public string? Complement { get; set; }
 
     public string? Neighborhood { get; set; }
+
+    public Address ToDomainEntity(Guid? id = null) =>
+        new()
+        {
+            Id = id ?? Guid.NewGuid(),
+            City = City,
+            Complement = Complement,
+            Country = Country,
+            Neighborhood = Neighborhood,
+            Number = Number,
+            State = State,
+            Street = Street,
+            PostalCodeVo = PostalCode
+        };
 }
