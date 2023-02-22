@@ -34,7 +34,10 @@ jobs:
         - run:
             name: Deploy to VPS
             command: |
-              ssh $SSH_USER@$SSH_HOST "docker ps -a -q --filter name=$DOCKER_IMG_NAME | grep -q . && docker stop $DOCKER_IMG_NAME && docker rm -f $DOCKER_IMG_NAME || echo Skipped && docker rmi -f $DOCKER_HUB_USERNAME/$DOCKER_IMG_NAME && docker run -p $API_PORT:80 -d --name $DOCKER_IMG_NAME $DOCKER_HUB_USERNAME/$DOCKER_IMG_NAME"
+              ssh $SSH_USER@$SSH_HOST "bash -c '
+                docker ps -a -q --filter name=$DOCKER_IMG_NAME | grep -q . && docker stop $DOCKER_IMG_NAME && docker rm -f $DOCKER_IMG_NAME || echo Skipped && docker rmi -f $DOCKER_HUB_USERNAME/$DOCKER_IMG_NAME && docker run -p $API_PORT:80 -d --name $DOCKER_IMG_NAME $DOCKER_HUB_USERNAME/$DOCKER_IMG_NAME
+                echo Hello
+                '"
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
