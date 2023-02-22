@@ -61,16 +61,19 @@ public class Customer : BaseEntity
         _validator.RuleFor(m => m.Name)
             .NotEmpty();
 
+        _validator.RuleFor(m => m.DocumentNumberVo)
+            .Must(c => c.IsValid());
+
         var errors = _addresses.Select(a => a.Validate())
             .Where(result => !result.IsValid)
             .SelectMany(result => result.Errors)
             .ToList();
 
-        var merchantValidationResult = _validator.Validate(this);
+        var customer = _validator.Validate(this);
 
-        if (!merchantValidationResult.IsValid)
+        if (!customer.IsValid)
         {
-            ValidationResult validationResult = merchantValidationResult;
+            ValidationResult validationResult = customer;
 
             errors.AddRange(validationResult.Errors);
         }
