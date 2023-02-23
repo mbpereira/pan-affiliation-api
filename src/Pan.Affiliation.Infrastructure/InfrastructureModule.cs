@@ -94,7 +94,8 @@ namespace Pan.Affiliation.Infrastructure
                         .File(settings.LogFile);
                 }
 
-                configuration.Enrich.FromLogContext()
+                configuration = configuration
+                    .Enrich.FromLogContext()
                     .Enrich.WithEnvironmentName()
                     .Enrich.WithMachineName()
                     .Enrich.WithClientAgent()
@@ -102,9 +103,7 @@ namespace Pan.Affiliation.Infrastructure
                     .Enrich.WithCorrelationId()
                     .Enrich.WithTraceIdentifier()
                     .Enrich.WithSpan()
-                    .WriteTo.Console()
-                    .WriteTo.File(settings.LogFile!)
-                    .CreateLogger();
+                    .WriteTo.Console();
 
                 loggingBuilder.ClearProviders();
                 loggingBuilder.AddSerilog(configuration.CreateLogger());
