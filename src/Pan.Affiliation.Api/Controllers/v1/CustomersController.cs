@@ -14,21 +14,21 @@ public class CustomersController : DefaultController
     public CustomersController(IValidationContext context) : base(context)
     {
     }
-    
+
     [HttpGet]
     public async Task<ActionResult<GenericResponse<IEnumerable<Customer>?>>>
         GetCustomerByDocumentNumberAsync(
             [FromServices] IGetAllCustomersUseCase useCase,
             [FromQuery] int pageNumber = 1)
         => GenericResponse(await useCase.ExecuteAsync(pageNumber));
-    
+
     [HttpGet("{documentNumber}")]
     public async Task<ActionResult<GenericResponse<Customer?>>>
         GetCustomerByDocumentNumberAsync(
             string documentNumber,
             [FromServices] IGetCustomerByDocumentNumberUseCase useCase)
         => GenericResponse(await useCase.ExecuteAsync(documentNumber));
-    
+
     [HttpPut("{customerId}/addresses/{addressId}")]
     public async Task<ActionResult<GenericResponse<Address?>>>
         PutAddressAsync(
@@ -38,10 +38,10 @@ public class CustomersController : DefaultController
             [FromServices] IChangeAddressUseCase useCase)
         => GenericResponse(await useCase.ExecuteAsync(new(customerId, addressId, input)));
 
-        [HttpPost]
-        public async Task<ActionResult<GenericResponse<Customer?>>>
-            CreateCustomerAsync(
-                [FromBody] CreateCustomerInput input,
-                [FromServices] ICreateCustomerUseCase useCase)
-            => GenericResponse(await useCase.ExecuteAsync(input));
+    [HttpPost]
+    public async Task<ActionResult<GenericResponse<Customer?>>>
+        CreateCustomerAsync(
+            [FromBody] CreateCustomerInput input,
+            [FromServices] ICreateCustomerUseCase useCase)
+        => GenericResponse(await useCase.ExecuteAsync(input));
 }

@@ -73,8 +73,28 @@ namespace Pan.Affiliation.Infrastructure
             {
                 var settings = _settingsProvider.GetSection<LogSettings>(Logging.Constants.LoggingSettingsKey);
 
-                var logger = new LoggerConfiguration()
-                    .Enrich.FromLogContext()
+                var configuration = new LoggerConfiguration();
+
+                var newRelicSettings = settings.NewRelicSettings;
+
+                if (newRelicSettings?.ApplicationName is not null &&
+                    newRelicSettings?.LicenseKey is not null)
+                {
+                    configuration = configuration
+                        .WriteTo
+                        .NewRelicLogs(
+                            licenseKey: newRelicSettings?.LicenseKey,
+                            applicationName: newRelicSettings?.ApplicationName);
+                }
+
+                if (settings.LogFile is not null)
+                {
+                    configuration = configuration
+                        .WriteTo
+                        .File(settings.LogFile);
+                }
+
+                configuration.Enrich.FromLogContext()
                     .Enrich.WithEnvironmentName()
                     .Enrich.WithMachineName()
                     .Enrich.WithClientAgent()
@@ -83,13 +103,11 @@ namespace Pan.Affiliation.Infrastructure
                     .Enrich.WithTraceIdentifier()
                     .Enrich.WithSpan()
                     .WriteTo.Console()
-                    .WriteTo.NewRelicLogs(licenseKey: settings.NewRelicSettings?.LicenseKey,
-                        applicationName: settings.NewRelicSettings?.ApplicationName)
                     .WriteTo.File(settings.LogFile!)
                     .CreateLogger();
 
                 loggingBuilder.ClearProviders();
-                loggingBuilder.AddSerilog(logger);
+                loggingBuilder.AddSerilog(configuration.CreateLogger());
             });
         }
 
