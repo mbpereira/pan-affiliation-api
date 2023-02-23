@@ -6,16 +6,18 @@ using Pan.Affiliation.Infrastructure.Settings.Sections;
 
 namespace Pan.Affiliation.Application.Services;
 
-public class ApplicationUpdater : IApplicationUpdater
+public record StartupSettings(bool SeedData);
+
+public class StartupAgent : IStartupAgent
 {
     private readonly IDbSeeder _seeder;
     private readonly IDbMigrator _migrator;
-    private readonly ILogger<ApplicationUpdater> _logger;
+    private readonly ILogger<StartupAgent> _logger;
     private readonly ISettingsProvider _settingsProvider;
-    
-    public ApplicationUpdater(
-        IDbMigrator migrator, 
-        ILogger<ApplicationUpdater> logger, 
+
+    public StartupAgent(
+        IDbMigrator migrator,
+        ILogger<StartupAgent> logger,
         IDbSeeder seeder, ISettingsProvider settingsProvider)
     {
         _migrator = migrator;
@@ -24,30 +26,36 @@ public class ApplicationUpdater : IApplicationUpdater
         _settingsProvider = settingsProvider;
     }
 
-    public async Task SeedAsync()
+    public async Task SetupAsync(StartupSettings settings)
+    {
+        if (settings.SeedData)
+        {
+            await SeedAsync();
+            return;
+        }
+
+        await MigrateAsync(forceMigration: false);
+    }
+
+    private async Task SeedAsync()
     {
         _logger.LogInformation("Seeding fake data");
 
-        await MigrateAsync();
+        await MigrateAsync(forceMigration: true);
 
         await _seeder.SeedAsync();
-        
+
         _logger.LogInformation("Finished seeding process");
     }
-    
-    public async Task UpdateAsync()
+
+    private async Task MigrateAsync(bool forceMigration)
     {
         var dbSettings = _settingsProvider
             .GetSection<DbSettings>(Constants.PanAffiliationDbSettingsKey);
 
-        if (!dbSettings.ApplyMigrationsOnStartup)
+        if (!dbSettings.ApplyMigrationsOnStartup && !forceMigration)
             return;
-        
-        await MigrateAsync();
-    }
 
-    private async Task MigrateAsync()
-    {
         _logger.LogInformation("Applying migrations");
 
         await _migrator.MigrateAsync();
