@@ -59,6 +59,7 @@ namespace Pan.Affiliation.Infrastructure
             builder.Register(_ =>
                     ConnectionMultiplexer.Connect(new ConfigurationOptions()
                     {
+                        AbortOnConnectFail = false,
                         EndPoints = { { settings.Host!, settings.Port } },
                         DefaultDatabase = settings.DefaultDatabase
                     }))
