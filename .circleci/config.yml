@@ -34,7 +34,25 @@ jobs:
         - run:
             name: Deploy to VPS
             command: |
-              ssh $SSH_USER@$SSH_HOST "docker ps -a -q --filter name=$DOCKER_IMG_NAME | grep -q . && docker stop $DOCKER_IMG_NAME && docker rm -f $DOCKER_IMG_NAME || echo Skipped && docker rmi -f $DOCKER_HUB_USERNAME/$DOCKER_IMG_NAME && docker run -p $API_PORT:80 -d --name $DOCKER_IMG_NAME $DOCKER_HUB_USERNAME/$DOCKER_IMG_NAME"
+              ssh $SSH_USER@$SSH_HOST "bash -c '
+                mkdir -p ~/.secrets/$DOCKER_IMG_NAME 2> /dev/null
+                echo ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                echo Logging__LogFile=$Logging__LogFile >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                echo Logging__NewRelicSettings__LicenseKey=$Logging__NewRelicSettings__LicenseKey >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                echo Logging__NewRelicSettings__ApplicationName=$Logging__NewRelicSettings__ApplicationName >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                echo PanAffiliationDbSettings__Username=$PanAffiliationDbSettings__Username >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                echo PanAffiliationDbSettings__Password=$PanAffiliationDbSettings__Password >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                echo PanAffiliationDbSettings__Port=$PanAffiliationDbSettings__Port >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                echo PanAffiliationDbSettings__Database=$PanAffiliationDbSettings__Database >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                echo PanAffiliationDbSettings__ApplyMigrationsOnStartup=$PanAffiliationDbSettings__ApplyMigrationsOnStartup >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                echo PanAffiliationDbSettings__Host=$PanAffiliationDbSettings__Host >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                echo IbgeSettings__BaseUrl=$IbgeSettings__BaseUrl >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                echo ViaCepSettings__BaseUrl=$ViaCepSettings__BaseUrl >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                echo RedisSettings__Host=$RedisSettings__Host >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                echo RedisSettings__Port=$RedisSettings__Port >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                echo RedisSettings__DefaultDatabase=$RedisSettings__DefaultDatabase >> ~/.secrets/$DOCKER_IMG_NAME/.env
+                docker ps -a -q --filter name=$DOCKER_IMG_NAME | grep -q . && docker stop $DOCKER_IMG_NAME && docker rm -f $DOCKER_IMG_NAME || echo Skipped && docker rmi -f $DOCKER_HUB_USERNAME/$DOCKER_IMG_NAME && docker run -p $API_PORT:80 -d --name $DOCKER_IMG_NAME --env-file ~/.secrets/$DOCKER_IMG_NAME/.env $DOCKER_HUB_USERNAME/$DOCKER_IMG_NAME
+              '"
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
