@@ -33,7 +33,7 @@ public class GetCustomerByDocumentNumberUseCase : IGetCustomerByDocumentNumberUs
         {
             _logger.LogWarning("Provided document number is not valid");
             _validationContext.AddNotification(nameof(DocumentNumber),
-                Shared.Constants.Errors.InvalidDocumentNumberErrorMessage);
+                Shared.Constants.Errors.InvalidDocumentNumberError);
             
             return null;
         }

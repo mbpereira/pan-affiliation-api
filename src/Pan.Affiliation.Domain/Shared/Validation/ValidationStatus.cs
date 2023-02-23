@@ -6,4 +6,5 @@ public enum ValidationStatus
     NotFound,
     PartialSuccess,
     Success,
+    Conflict
 }

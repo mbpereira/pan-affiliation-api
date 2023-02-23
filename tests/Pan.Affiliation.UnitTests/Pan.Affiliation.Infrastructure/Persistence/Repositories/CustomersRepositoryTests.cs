@@ -199,6 +199,23 @@ public class CustomersRepositoryTests
         changedAddress?.Street.Should().NotBe(oldStreetName);
         changedCustomer.Addresses.Count().Should().Be(oldAddressQt);
     }
+    
+    [Fact]
+    public async Task When_CreateCustomerAsync_called_should_create_customers_and_addresses()
+    {
+        var customers = GetFakeCustomers();
+        using var context = await GetInMemoryDbContext();
+        var repository = GetRepository(context);
+        var customer = customers.FirstOrDefault()!.ToDomainEntity();
+
+        _ = await repository.CreateCustomerAsync(customer);
+        var createdCustomer = await repository.GetCustomerByIdAsync(customer.Id);
+
+        createdCustomer.Should().BeEquivalentTo(customer, opt =>
+            opt.Excluding(c => c.Addresses));
+
+        createdCustomer.Addresses.Should().HaveCountGreaterThan(0);
+    }
 
     private string GetFakeCep()
         => _faker.Random.String(minChar: '0', maxChar: '9', length: 8);
@@ -222,15 +239,23 @@ public class CustomersRepositoryTests
 
     private List<InfraCustomer> GetFakeCustomers(int customersQt = 1, int addressQt = 3)
     {
-        return new AutoFaker<InfraCustomer>()
+        var customers = new AutoFaker<InfraCustomer>()
             .RuleFor(
                 c => c.Addresses,
-                _ => new AutoFaker<InfraAddress>()
-                    .RuleFor(a => a.PostalCode, _ => GetFakeCep())
-                    .Generate(addressQt))
+                _ => null)
             .RuleFor(
                 c => c.DocumentNumber,
                 _ => _faker.Person.Cpf(includeFormatSymbols: false))
             .Generate(customersQt);
+
+        foreach (var customer in customers)
+        {
+            customer.Addresses = new AutoFaker<InfraAddress>()
+                .RuleFor(a => a.CustomerId, _ => customer.Id)
+                .RuleFor(a => a.PostalCode, _ => GetFakeCep())
+                .Generate(addressQt);
+        }
+
+        return customers;
     }
 }
