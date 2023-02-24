@@ -12,7 +12,7 @@ public static class Constants
 {
     public const string IbgeSettingsKey = "IbgeSettings";
     public const string StateCitiesCacheKey = "state_{0}_cities";
-    public const string CountryStatesCacheKey = "state_{0}_cities";
+    public const string CountryStatesCacheKey = "states";
     public const string IbgeHttpClient = "IBGE";
 }
 
