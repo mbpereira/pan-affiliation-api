@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Security.Authentication;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -61,7 +62,12 @@ namespace Pan.Affiliation.Infrastructure
                     {
                         AbortOnConnectFail = false,
                         EndPoints = { { settings.Host!, settings.Port } },
-                        DefaultDatabase = settings.DefaultDatabase
+                        DefaultDatabase = settings.DefaultDatabase,
+                        SslProtocols = SslProtocols.Tls12,
+                        AsyncTimeout = 5000,
+                        ConnectTimeout = 5000,
+                        SyncTimeout = 5000,
+                        
                     }))
                 .As<IConnectionMultiplexer>()
                 .SingleInstance();
@@ -94,7 +100,8 @@ namespace Pan.Affiliation.Infrastructure
                         .File(settings.LogFile);
                 }
 
-                configuration.Enrich.FromLogContext()
+                configuration = configuration
+                    .Enrich.FromLogContext()
                     .Enrich.WithEnvironmentName()
                     .Enrich.WithMachineName()
                     .Enrich.WithClientAgent()
@@ -102,9 +109,7 @@ namespace Pan.Affiliation.Infrastructure
                     .Enrich.WithCorrelationId()
                     .Enrich.WithTraceIdentifier()
                     .Enrich.WithSpan()
-                    .WriteTo.Console()
-                    .WriteTo.File(settings.LogFile!)
-                    .CreateLogger();
+                    .WriteTo.Console();
 
                 loggingBuilder.ClearProviders();
                 loggingBuilder.AddSerilog(configuration.CreateLogger());
